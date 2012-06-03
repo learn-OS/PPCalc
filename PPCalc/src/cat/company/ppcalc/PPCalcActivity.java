@@ -38,4 +38,15 @@ public class PPCalcActivity extends Activity{
 		bd.setMessage(getResources().getQuantityString(R.plurals.num_points, points, points));
 		bd.show();
 	}
+	
+	public void init(View view){
+		EditText tCarbs=(EditText) findViewById(R.id.editCarbs);
+		EditText tProtein=(EditText) findViewById(R.id.editProtein);
+		EditText tFat=(EditText) findViewById(R.id.editFat);
+		EditText tFibre=(EditText) findViewById(R.id.editFibre);
+		tCarbs.setText("");
+		tProtein.setText("");
+		tFat.setText("");
+		tFibre.setText("");
+	}
 }

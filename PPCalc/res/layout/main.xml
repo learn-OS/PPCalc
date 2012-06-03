@@ -52,6 +52,7 @@
 	</TableRow>
 	
 	<TableRow>
-	    <Button android:layout_span="2" android:id="@+id/bCalculate" android:text="@string/calculate" android:onClick="calculate" />
+	    <Button android:id="@+id/bCalculate" android:text="@string/calculate" android:onClick="calculate" />
+	    <Button android:id="@+id/bCalculateInit" android:text="@string/init" android:onClick="init" />
 	</TableRow>
 </TableLayout>

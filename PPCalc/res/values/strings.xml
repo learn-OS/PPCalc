@@ -6,6 +6,7 @@
     <string name="fat">Fat</string>
     <string name="fibre">Fibre</string>
     <string name="calculate">Calculate</string>
+    <string name="init">Init</string>
     <string name="nil">0</string>
     <string name="points">Points</string>
 	<plurals name="num_points">

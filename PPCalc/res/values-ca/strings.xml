@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PPCalc</string>
+    <string name="protein">Proteines</string>
+    <string name="carbs">Hidrats de carboni</string>
+    <string name="fat">Greixos</string>
+    <string name="fibre">Fibra</string>
+    <string name="calculate">Calcular</string>
+    <string name="init">Inicialitzar</string>
+    <string name="nil">0</string>
+    <string name="points">Punts</string>
+	<plurals name="num_points">
+        <item quantity="zero">Zero punts.</item>
+        <item quantity="one">%d punt.</item>
+        <item quantity="other">%d punts.</item>
+    </plurals>
+</resources>

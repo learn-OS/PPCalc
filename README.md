@@ -1,4 +1,4 @@
 PPCalc
 ======
 
-Propoints points calculator.
+Propoints / Weightwatchers points calculator for Android.

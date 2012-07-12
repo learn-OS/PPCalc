@@ -1,5 +1,7 @@
 package cat.company.ppcalc;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,6 +25,18 @@ public class PPCalcActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.mainmenu, menu);
 		return true;
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	@Override

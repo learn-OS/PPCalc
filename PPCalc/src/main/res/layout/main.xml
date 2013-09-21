@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:stretchColumns="1" android:padding="8dp">
+
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/protein" />
+        <EditText
+            android:id="@+id/editProtein"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" android:inputType="numberDecimal" android:hint="@string/nil" >
+
+            <requestFocus />
+        </EditText>
+    </TableRow>
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/carbs" />
+        <EditText
+            android:id="@+id/editCarbs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" android:inputType="numberDecimal" android:hint="@string/nil" />
+    </TableRow>
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fat" />
+        <EditText
+            android:id="@+id/editFat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" android:inputType="numberDecimal" android:hint="@string/nil" />
+    </TableRow>
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fibre" />
+        <EditText
+            android:id="@+id/editFibre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" android:inputType="numberDecimal" android:hint="@string/nil" />
+    </TableRow>
+
+    <TableRow android:layout_width="match_parent">
+        <Button android:layout_span="2" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/bCalculate" android:text="@string/calculate" android:onClick="calculate" />
+    </TableRow>
+</TableLayout>

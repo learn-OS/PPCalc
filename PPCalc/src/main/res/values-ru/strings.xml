@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">"PPCalc"</string>
+    <string name="protein">"Белки"</string>
+    <string name="carbs">"Углеводы"</string>
+    <string name="fat">"Жир"</string>
+    <string name="fibre">"волокно"</string>
+    <string name="calculate">"Рассчитать"</string>
+    <string name="init">"Инициализировать"</string>
+    <string name="nil">"0"</string>
+    <string name="points">"баллов"</string>
+	<plurals name="num_points">
+        <item quantity="zero">"Нулевой точки."</item>
+        <item quantity="one">"%d точки."</item>
+        <item quantity="other">"%d очки."</item>
+    </plurals>
+</resources>

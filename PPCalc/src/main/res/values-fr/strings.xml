@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">"PPCalc"</string>
+    <string name="protein">"Protéines"</string>
+    <string name="carbs">"Glucides"</string>
+    <string name="fat">"Lipides"</string>
+    <string name="fibre">"Fibre"</string>
+    <string name="calculate">"Calculer"</string>
+    <string name="init">"Initialiser"</string>
+    <string name="nil">"0"</string>
+    <string name="points">"Points"</string>
+	<plurals name="num_points">
+        <item quantity="zero">"Zéro points."</item>
+        <item quantity="one">"%d point."</item>
+        <item quantity="other">"%d points."</item>
+    </plurals>
+</resources>

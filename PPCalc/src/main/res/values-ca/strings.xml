@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PPCalc</string>
-    <string name="protein">Proteines</string>
+    <string name="protein">Proteïnes</string>
     <string name="carbs">Hidrats de carboni</string>
     <string name="fat">Greixos</string>
     <string name="fibre">Fibra</string>

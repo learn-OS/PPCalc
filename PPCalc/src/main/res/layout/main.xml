@@ -7,13 +7,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/protein" />
+            android:text="@string/protein" android:layout_marginRight="3dip" />
         <EditText
             android:id="@+id/editProtein"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" android:inputType="numberDecimal" android:hint="@string/nil" >
-
+            android:inputType="numberDecimal" android:hint="@string/nil" >
             <requestFocus />
         </EditText>
     </TableRow>
@@ -21,34 +20,34 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/carbs" />
+            android:text="@string/carbs" android:layout_marginRight="3dp" />
         <EditText
             android:id="@+id/editCarbs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" android:inputType="numberDecimal" android:hint="@string/nil" />
+            android:inputType="numberDecimal" android:hint="@string/nil" />
     </TableRow>
     <TableRow android:layout_width="match_parent">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/fat" />
+            android:text="@string/fat" android:layout_marginRight="3dp" />
         <EditText
             android:id="@+id/editFat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" android:inputType="numberDecimal" android:hint="@string/nil" />
+            android:inputType="numberDecimal" android:hint="@string/nil" />
     </TableRow>
     <TableRow android:layout_width="match_parent">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/fibre" />
+            android:text="@string/fibre" android:layout_marginRight="3dp" />
         <EditText
             android:id="@+id/editFibre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" android:inputType="numberDecimal" android:hint="@string/nil" />
+            android:inputType="numberDecimal" android:hint="@string/nil" />
     </TableRow>
 
     <TableRow android:layout_width="match_parent">

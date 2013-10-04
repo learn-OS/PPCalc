@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-
 import cat.company.ppcalc.calculator.PointsCalculator;
-
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class MainActivity extends SherlockActivity {
     /**
@@ -24,6 +24,13 @@ public class MainActivity extends SherlockActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        Button bCalc = ((Button) findViewById(R.id.bCalculate));
+        bCalc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculate(v);
+            }
+        });
     }
 
     @Override
@@ -35,13 +42,13 @@ public class MainActivity extends SherlockActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
+        EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override
@@ -50,7 +57,6 @@ public class MainActivity extends SherlockActivity {
             case R.id.init:
                 init();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -88,6 +94,14 @@ public class MainActivity extends SherlockActivity {
         bd.setMessage(getResources().getQuantityString(R.plurals.num_points,
                 points, points));
         bd.show();
+        EasyTracker easyTracker = EasyTracker.getInstance(this);
+
+        easyTracker.send(MapBuilder
+                .createEvent("ui_action",     // Event category (required)
+                        "button_press",  // Event action (required)
+                        "calculate_points",   // Event label
+                        (long) points)            // Event value
+                .build());
     }
 
     public void init() {

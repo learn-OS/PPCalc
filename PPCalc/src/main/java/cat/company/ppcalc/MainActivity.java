@@ -97,10 +97,10 @@ public class MainActivity extends SherlockActivity {
         EasyTracker easyTracker = EasyTracker.getInstance(this);
 
         easyTracker.send(MapBuilder
-                .createEvent("ui_action",     // Event category (required)
-                        "button_press",  // Event action (required)
-                        "calculate_points",   // Event label
-                        (long) points)            // Event value
+                .createEvent("ui_action",
+                        "button_press",
+                        "calculate_points",
+                        (long) points)
                 .build());
     }
 

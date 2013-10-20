@@ -4,19 +4,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.view.ContextThemeWrapper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import cat.company.ppcalc.calculator.PointsCalculator;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
-public class MainActivity extends SherlockActivity {
+import cat.company.ppcalc.calculator.PointsCalculator;
+
+public class MainActivity extends ActionBarActivity {
     /**
      * Called when the activity is first created.
      */
@@ -35,7 +37,7 @@ public class MainActivity extends SherlockActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -67,7 +69,7 @@ public class MainActivity extends SherlockActivity {
         EditText tProtein = (EditText) findViewById(R.id.editProtein);
         EditText tFat = (EditText) findViewById(R.id.editFat);
         EditText tFibre = (EditText) findViewById(R.id.editFibre);
-        AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Sherlock___Theme));
+        AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppTheme));
         bd.setTitle(R.string.points);
         bd.setPositiveButton("Ok", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

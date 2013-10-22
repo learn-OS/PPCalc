@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PPCalc</string>
+    <string name="action_settings">设置</string>
+    <string name="hello_world">世界，你好！</string>
+    <string name="protein">蛋白质</string>
+    <string name="carbs">碳水化合物</string>
+    <string name="fat">脂肪</string>
+    <string name="fibre">光纤</string>
+    <string name="calculate">计算</string>
+    <string name="init">初始化</string>
+    <string name="nil">0</string>
+    <string name="points">积分</string>
+    <plurals name="num_points">
+        <item quantity="zero">零点。</item>
+        <item quantity="one">%d 点。</item>
+        <item quantity="other">%d 点。</item>
+    </plurals>
+</resources>

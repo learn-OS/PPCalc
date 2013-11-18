@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:stretchColumns="1" android:padding="8dp">
+    android:layout_height="match_parent" android:orientation="vertical">
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp" android:layout_weight="1" android:stretchColumns="1" android:padding="8dp">
 
     <TableRow android:layout_width="match_parent">
         <TextView
@@ -54,3 +59,9 @@
         <Button android:layout_span="2" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/bCalculate" android:text="@string/calculate" />
     </TableRow>
 </TableLayout>
+    <com.google.ads.AdView android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-0190912530193856/6734458653"
+        ads:adSize="BANNER" />
+</LinearLayout>

@@ -23,9 +23,9 @@ android {
 
     signingConfigs {
         release {
-            storePassword System.console().readLine("\n\$ Enter keystore password: ")
-            keyAlias System.console().readLine("\n\$ Enter key alias: ")
-            keyPassword System.console().readLine("\n\$ Enter key password: ")
+            storePassword
+            keyAlias
+            keyPassword
             storeFile file('/Users/carles/Google Drive/Android/keystore')
         }
     }

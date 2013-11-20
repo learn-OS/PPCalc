@@ -13,8 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
@@ -35,9 +33,6 @@ public class MainActivity extends ActionBarActivity {
                 calculate(v);
             }
         });
-        AdView adView = (AdView)this.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest();
-        adView.loadAd(adRequest);
     }
 
     @Override

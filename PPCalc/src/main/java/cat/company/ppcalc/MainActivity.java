@@ -82,14 +82,14 @@ public class MainActivity extends ActionBarActivity {
         Editable fibreText = tFibre.getText();
         int points = PointsCalculator
                 .CreateInstance()
-                .setCarbs(carbsText != null &&
+                .addCarbs(carbsText != null &&
                         carbsText.length() > 0 ? Double
                         .parseDouble(carbsText.toString()) : 0)
-                .setProteins(
+                .addProteins(
                         proteinText != null && proteinText.length() > 0 ? Double
                                 .parseDouble(proteinText.toString()) : 0)
-                .setFat(fatText != null && fatText.length() > 0 ? Double.parseDouble(fatText.toString()) : 0)
-                .setFibre(fibreText != null &&
+                .addFat(fatText != null && fatText.length() > 0 ? Double.parseDouble(fatText.toString()) : 0)
+                .addFibre(fibreText != null &&
                         fibreText.length() > 0 ? Double
                         .parseDouble(fibreText.toString()) : 0)
                 .calculate();

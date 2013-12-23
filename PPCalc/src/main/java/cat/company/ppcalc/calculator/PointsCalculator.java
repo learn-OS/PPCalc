@@ -17,23 +17,23 @@ public class PointsCalculator {
         return new PointsCalculator();
     }
 
-    public PointsCalculator setProteins(double protein){
-        this.protein=protein;
+    public PointsCalculator addProteins(double protein){
+        this.protein+=protein;
         return this;
     }
 
-    public PointsCalculator setCarbs(double carbs){
-        this.carbs=carbs;
+    public PointsCalculator addCarbs(double carbs){
+        this.carbs+=carbs;
         return this;
     }
 
-    public PointsCalculator setFat(double fat){
-        this.fat=fat;
+    public PointsCalculator addFat(double fat){
+        this.fat+=fat;
         return this;
     }
 
-    public PointsCalculator setFibre(double fibre){
-        this.fibre=fibre;
+    public PointsCalculator addFibre(double fibre){
+        this.fibre+=fibre;
         return this;
     }
 

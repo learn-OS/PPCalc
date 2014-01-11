@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
         Spinner spUnits=(Spinner) findViewById(R.id.unit);
         UnitSpinnerAdapter spinner_adapter = new UnitSpinnerAdapter(this,itemsUnit);
         spUnits.setAdapter(spinner_adapter);
-        spUnits.setSelection(0);
+        spUnits.setSelection(getPreferences(MODE_PRIVATE).getInt("spinnerPosition",0));
         spUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -58,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
                     Unit item = (Unit) parent.getItemAtPosition(position);
                     if (item != null) {
                         unit = item.getId();
+                        getPreferences(MODE_PRIVATE).edit().putInt("spinnerPosition",position);
                     }
                 }
             }

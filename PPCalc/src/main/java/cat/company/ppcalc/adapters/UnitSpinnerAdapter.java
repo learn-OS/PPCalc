@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import cat.company.ppcalc.R;
 import cat.company.ppcalc.calculator.Unit;
 
 /**
@@ -43,7 +44,7 @@ public class UnitSpinnerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(android.R.layout.simple_spinner_dropdown_item,
+            convertView = inflater.inflate(R.layout.unit_spinner_item,
                     parent, false);
         }
 

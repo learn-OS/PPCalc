@@ -138,9 +138,13 @@ public class MainActivity extends ActionBarActivity {
         EditText tProtein = (EditText) findViewById(R.id.editProtein);
         EditText tFat = (EditText) findViewById(R.id.editFat);
         EditText tFibre = (EditText) findViewById(R.id.editFibre);
+        Spinner spUnits=(Spinner) findViewById(R.id.unit);
+
         tCarbs.setText("");
         tProtein.setText("");
         tFat.setText("");
         tFibre.setText("");
+        spUnits.setSelection(0);
+        tProtein.requestFocus();
     }
 }

@@ -8,7 +8,7 @@
     <string name="init">Inicializar</string>
     <string name="nil">0</string>
     <string name="points">Puntos</string>
-    <string name="unit">Unidad</string>
+    <string name="unit">Unidades</string>
 	<plurals name="num_points">
         <item quantity="zero">Cero puntos.</item>
         <item quantity="one">%d punto.</item>

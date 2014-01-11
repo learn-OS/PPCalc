@@ -23,9 +23,9 @@ android {
 
     signingConfigs {
         release {
-            storePassword
-            keyAlias
-            keyPassword
+            storePassword "43128927"
+            keyAlias "carles"
+            keyPassword "43128927"
             storeFile file('/Users/carles/Google Drive/Android/keystore')
         }
     }

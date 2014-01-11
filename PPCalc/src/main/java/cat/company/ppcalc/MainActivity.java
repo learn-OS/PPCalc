@@ -45,6 +45,8 @@ public class MainActivity extends ActionBarActivity {
         ArrayList<Unit> itemsUnit=new ArrayList<Unit>();
         itemsUnit.add(new Unit(Unit.UnitEnum.Grams,this.getResources().getString(R.string.grams)));
         itemsUnit.add(new Unit(Unit.UnitEnum.Kilos,this.getResources().getString(R.string.kilos)));
+        itemsUnit.add(new Unit(Unit.UnitEnum.Ounce,this.getResources().getString(R.string.ounces)));
+        itemsUnit.add(new Unit(Unit.UnitEnum.Pounds,this.getResources().getString(R.string.pounds)));
         Spinner spUnits=(Spinner) findViewById(R.id.unit);
         UnitSpinnerAdapter spinner_adapter = new UnitSpinnerAdapter(this,itemsUnit);
         spUnits.setAdapter(spinner_adapter);

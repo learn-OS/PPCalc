@@ -16,4 +16,9 @@
         <item quantity="one">%d 点。</item>
         <item quantity="other">%d 点。</item>
     </plurals>
+    <string name="unit">单位</string>
+    <string name="grams">克</string>
+    <string name="kilos">公斤</string>
+    <string name="pounds">英镑</string>
+    <string name="ounces">盎司</string>
 </resources>

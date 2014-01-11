@@ -8,12 +8,14 @@
     <string name="init">"Init"</string>
     <string name="nil">"0"</string>
     <string name="points">"Punkte"</string>
-    <string name="unit">Unit</string>
+    <string name="unit">Einheiten</string>
 	<plurals name="num_points">
         <item quantity="zero">"Kein punkt."</item>
         <item quantity="one">"Ein punkt."</item>
         <item quantity="other">"%d punkte."</item>
     </plurals>
-    <string name="grams">Grams</string>
-    <string name="kilos">Kilograms</string>
+    <string name="grams">Gramm</string>
+    <string name="kilos">Kilogramm</string>
+    <string name="pounds">Pfund</string>
+    <string name="ounces">Unzen</string>
 </resources>

@@ -76,6 +76,10 @@ public class PointsCalculator {
         switch (unit){
             case Kilos:
                 return  value*1000;
+            case Ounce:
+                return value*28.349523125;
+            case Pounds:
+                return value*453.59237;
         }
         return value;
     }

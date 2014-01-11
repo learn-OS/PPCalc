@@ -23,7 +23,9 @@ public class Unit {
 
     public enum UnitEnum {
         Grams,
-        Kilos
+        Kilos,
+        Ounce,
+        Pounds
     }
 
     private UnitEnum id;

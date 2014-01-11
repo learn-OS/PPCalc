@@ -17,4 +17,6 @@
     </plurals>
     <string name="grams">Grams</string>
     <string name="kilos">Kilograms</string>
+    <string name="pounds">Lliures</string>
+    <string name="ounces">Unces</string>
 </resources>

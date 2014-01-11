@@ -3,6 +3,7 @@ package cat.company.ppcalc;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -58,7 +59,9 @@ public class MainActivity extends ActionBarActivity {
                     Unit item = (Unit) parent.getItemAtPosition(position);
                     if (item != null) {
                         unit = item.getId();
-                        getPreferences(MODE_PRIVATE).edit().putInt("spinnerPosition",position);
+                        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+                        editor.putInt("spinnerPosition", position);
+                        editor.commit();
                     }
                 }
             }
@@ -147,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
         tProtein.setText("");
         tFat.setText("");
         tFibre.setText("");
-        spUnits.setSelection(0);
+        spUnits.setSelection(getPreferences(MODE_PRIVATE).getInt("spinnerPosition",0));
         tProtein.requestFocus();
     }
 }

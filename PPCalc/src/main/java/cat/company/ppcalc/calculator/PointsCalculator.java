@@ -7,16 +7,23 @@ public class PointsCalculator {
     private double carbs;
     private double fat;
     private double fibre;
+    private Unit.UnitEnum unit;
 
     private PointsCalculator() {
         protein = 0;
         carbs = 0;
         fat = 0;
         fibre = 0;
+        unit= Unit.UnitEnum.Grams;
     }
 
     public static PointsCalculator CreateInstance() {
         return new PointsCalculator();
+    }
+
+    public PointsCalculator setUnit(Unit.UnitEnum unit){
+        this.unit=unit;
+        return this;
     }
 
     public PointsCalculator addProteins(double protein) {
@@ -65,8 +72,16 @@ public class PointsCalculator {
                 : 0;
     }
 
+    private double adaptUnits(double value){
+        switch (unit){
+            case Kilos:
+                return  value*1000;
+        }
+        return value;
+    }
+
     public int calculate() {
-        double points = Math.max(Math.round((16 * protein + 19 * carbs + 45 * fat + 5 * fibre) / 175), 0);
+        double points = Math.max(Math.round((16 * adaptUnits(protein) + 19 * adaptUnits(carbs) + 45 * adaptUnits(fat) + 5 * adaptUnits(fibre)) / 175), 0);
         return (int) points;
     }
 }

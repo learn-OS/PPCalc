@@ -8,9 +8,12 @@
     <string name="init">Inicializar</string>
     <string name="nil">0</string>
     <string name="points">Puntos</string>
+    <string name="unit">Unidad</string>
 	<plurals name="num_points">
         <item quantity="zero">Cero puntos.</item>
         <item quantity="one">%d punto.</item>
         <item quantity="other">%d puntos.</item>
     </plurals>
+    <string name="grams">Gramos</string>
+    <string name="kilos">Kilogramos</string>
 </resources>

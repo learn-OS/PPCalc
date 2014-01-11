@@ -10,27 +10,59 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
+import java.util.ArrayList;
+
+import cat.company.ppcalc.adapters.UnitSpinnerAdapter;
 import cat.company.ppcalc.calculator.PointsCalculator;
+import cat.company.ppcalc.calculator.Unit;
 
 public class MainActivity extends ActionBarActivity {
+    private Unit.UnitEnum unit;
+
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        unit= Unit.UnitEnum.Grams;
         setContentView(R.layout.main);
         Button bCalc = ((Button) findViewById(R.id.bCalculate));
         bCalc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 calculate(v);
+            }
+        });
+        ArrayList<Unit> itemsUnit=new ArrayList<Unit>();
+        itemsUnit.add(new Unit(Unit.UnitEnum.Grams,this.getResources().getString(R.string.grams)));
+        itemsUnit.add(new Unit(Unit.UnitEnum.Kilos,this.getResources().getString(R.string.kilos)));
+        Spinner spUnits=(Spinner) findViewById(R.id.unit);
+        UnitSpinnerAdapter spinner_adapter = new UnitSpinnerAdapter(this,itemsUnit);
+        spUnits.setAdapter(spinner_adapter);
+        spUnits.setSelection(0);
+        spUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getId() == R.id.unit) {
+                    Unit item = (Unit) parent.getItemAtPosition(position);
+                    if (item != null) {
+                        unit = item.getId();
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -82,6 +114,7 @@ public class MainActivity extends ActionBarActivity {
         Editable fibreText = tFibre.getText();
         int points = PointsCalculator
                 .CreateInstance()
+                .setUnit(unit)
                 .addCarbs(carbsText)
                 .addProteins(proteinText)
                 .addFat(fatText)

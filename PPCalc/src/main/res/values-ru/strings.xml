@@ -8,9 +8,12 @@
     <string name="init">"Инициализировать"</string>
     <string name="nil">"0"</string>
     <string name="points">"баллов"</string>
+    <string name="unit">Unit</string>
 	<plurals name="num_points">
         <item quantity="zero">"Нулевой точки."</item>
         <item quantity="one">"%d точки."</item>
         <item quantity="other">"%d очки."</item>
     </plurals>
+    <string name="grams">Grams</string>
+    <string name="kilos">Kilograms</string>
 </resources>

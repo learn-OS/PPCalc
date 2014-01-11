@@ -54,6 +54,16 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal" android:hint="@string/nil" />
     </TableRow>
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/unit" android:layout_marginRight="3dp"/>
+        <Spinner
+            android:id="@+id/unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </TableRow>
 
     <TableRow android:layout_width="match_parent">
         <Button android:layout_span="2" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/bCalculate" android:text="@string/calculate" />

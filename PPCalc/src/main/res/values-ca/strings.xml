@@ -9,7 +9,7 @@
     <string name="init">Inicialitzar</string>
     <string name="nil">0</string>
     <string name="points">Punts</string>
-    <string name="unit">Unitat</string>
+    <string name="unit">Unitats</string>
 	<plurals name="num_points">
         <item quantity="zero">Zero punts.</item>
         <item quantity="one">%d punt.</item>

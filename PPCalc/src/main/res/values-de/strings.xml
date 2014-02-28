@@ -18,4 +18,5 @@
     <string name="kilos">Kilogramm</string>
     <string name="pounds">Pfund</string>
     <string name="ounces">Unzen</string>
+    <string name="kilocalories">Kcal</string>
 </resources>

@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: ComGoogleAndroidGmsPlayServices3136.aar">
+  <library name="play-services-3.1.36">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/PPCalc/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/PPCalc/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res" />

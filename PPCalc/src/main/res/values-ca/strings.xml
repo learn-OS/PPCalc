@@ -19,4 +19,5 @@
     <string name="kilos">Kilograms</string>
     <string name="pounds">Lliures</string>
     <string name="ounces">Unces</string>
+    <string name="kilocalories">Kcal</string>
 </resources>

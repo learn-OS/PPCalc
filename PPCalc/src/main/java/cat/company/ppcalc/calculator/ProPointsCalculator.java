@@ -1,15 +1,19 @@
 package cat.company.ppcalc.calculator;
 
 import android.text.Editable;
+import android.view.Menu;
+import android.view.MenuItem;
 
-public class PointsCalculator {
+import cat.company.ppcalc.R;
+
+public class ProPointsCalculator {
     private double protein;
     private double carbs;
     private double fat;
     private double fibre;
     private Unit.UnitEnum unit;
 
-    private PointsCalculator() {
+    private ProPointsCalculator() {
         protein = 0;
         carbs = 0;
         fat = 0;
@@ -17,51 +21,51 @@ public class PointsCalculator {
         unit= Unit.UnitEnum.Grams;
     }
 
-    public static PointsCalculator CreateInstance() {
-        return new PointsCalculator();
+    public static ProPointsCalculator CreateInstance() {
+        return new ProPointsCalculator();
     }
 
-    public PointsCalculator setUnit(Unit.UnitEnum unit){
+    public ProPointsCalculator setUnit(Unit.UnitEnum unit){
         this.unit=unit;
         return this;
     }
 
-    public PointsCalculator addProteins(double protein) {
+    public ProPointsCalculator addProteins(double protein) {
         this.protein += protein;
         return this;
     }
 
-    public PointsCalculator addProteins(Editable proteinText) {
+    public ProPointsCalculator addProteins(Editable proteinText) {
         this.carbs += EditableToDouble(proteinText);
         return this;
     }
 
-    public PointsCalculator addCarbs(double carbs) {
+    public ProPointsCalculator addCarbs(double carbs) {
         this.carbs += carbs;
         return this;
     }
 
-    public PointsCalculator addCarbs(Editable carbsText) {
+    public ProPointsCalculator addCarbs(Editable carbsText) {
         this.carbs += EditableToDouble(carbsText);
         return this;
     }
 
-    public PointsCalculator addFat(double fat) {
+    public ProPointsCalculator addFat(double fat) {
         this.fat += fat;
         return this;
     }
 
-    public PointsCalculator addFat(Editable fatText) {
+    public ProPointsCalculator addFat(Editable fatText) {
         this.fat += EditableToDouble(fatText);
         return this;
     }
 
-    public PointsCalculator addFibre(double fibre) {
+    public ProPointsCalculator addFibre(double fibre) {
         this.fibre += fibre;
         return this;
     }
 
-    public PointsCalculator addFibre(Editable fibre) {
+    public ProPointsCalculator addFibre(Editable fibre) {
         this.fibre += EditableToDouble(fibre);
         return this;
     }

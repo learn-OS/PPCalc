@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:stretchColumns="1" android:padding="8dp">
+
+        <TableRow android:layout_width="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fat" android:layout_marginRight="3dip" />
+            <EditText
+                android:id="@+id/editFat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" android:hint="@string/nil" >
+                <requestFocus />
+            </EditText>
+        </TableRow>
+        <TableRow android:layout_width="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/kilocalories" android:layout_marginRight="3dp" />
+            <EditText
+                android:id="@+id/editKCal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" android:hint="@string/nil" />
+        </TableRow>
+        <TableRow android:layout_width="match_parent">
+            <Button android:layout_span="2" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/bCalculate" android:text="@string/calculate" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

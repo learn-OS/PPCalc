@@ -8,7 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 import java.util.Vector;
@@ -61,18 +62,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EasyTracker.getInstance(context).activityStart(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EasyTracker.getInstance(context).activityStop(this);
+        AdView adView = (AdView) this.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adView.loadAd(adRequest);
     }
 
     @Override

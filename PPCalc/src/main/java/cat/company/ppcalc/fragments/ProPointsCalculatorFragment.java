@@ -19,9 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
-
 import java.util.ArrayList;
 
 import cat.company.ppcalc.R;
@@ -115,14 +112,6 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         bd.setMessage(getResources().getQuantityString(R.plurals.num_points,
                 points, points));
         bd.show();
-        EasyTracker easyTracker = EasyTracker.getInstance(getActivity());
-
-        easyTracker.send(MapBuilder
-                .createEvent("ui_action",
-                        "button_press",
-                        "calculate_points",
-                        (long) points)
-                .build());
     }
 
     public void init() {

@@ -19,4 +19,6 @@
     <string name="pounds">фунты</string>
     <string name="ounces">фунты</string>
     <string name="kilocalories">Kcal</string>
+    <string name="drawer_open">Open drawer</string>
+    <string name="drawer_close">Close drawer</string>
 </resources>

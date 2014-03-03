@@ -3,7 +3,7 @@ PPCalc
 
 Propoints / Weightwatchers points calculator for Android.
 
-** v.1.5:** Added Flexipoints calculation.
+__v.1.5:__ Added Flexipoints calculation.
 
 Todo
 ----

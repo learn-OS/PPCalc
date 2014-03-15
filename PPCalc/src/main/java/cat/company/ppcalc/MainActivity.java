@@ -2,6 +2,7 @@ package cat.company.ppcalc;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,6 +28,7 @@ import cat.company.ppcalc.adapters.PagerAdapter;
 import cat.company.ppcalc.calculator.Unit;
 import cat.company.ppcalc.fragments.FlexiPointsCalculatorFragment;
 import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
+import cat.company.ppcalc.util.TitleProvider;
 
 public class MainActivity extends ActionBarActivity {
     private Unit.UnitEnum unit;
@@ -48,11 +51,10 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         final ActionBar actionBar = getSupportActionBar();
-        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        List<Fragment> fragments = new Vector<Fragment>();
+        final List<Fragment> fragments = new Vector<Fragment>();
         fragments.add(Fragment.instantiate(this,
                 ProPointsCalculatorFragment.class.getName()));
         fragments.add(Fragment.instantiate(this,
@@ -63,28 +65,33 @@ public class MainActivity extends ActionBarActivity {
         pager.setAdapter(mPagerAdapter);
         drawerMenu = new Vector<String>();
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            //actionBar.addTab(
-            //        actionBar.newTab()
-            //                .setText(mPagerAdapter.getPageTitle(i))
-            //                .setTabListener(this));
             drawerMenu.add(mPagerAdapter.getPageTitle(i));
         }
-        setTitle("PPCalc - "+drawerMenu.get(0));
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, drawerMenu));
+        actionBar.setTitle(((TitleProvider)fragments.get(0)).getTitle());
+        if(Build.VERSION.SDK_INT>=11)
+            mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                    R.layout.drawer_list_item, drawerMenu));
+        else
+            mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                    R.layout.drawer_list_item_old, drawerMenu));
+        mDrawerList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pager.setCurrentItem(position);
-                setTitle("PPCalc - " + drawerMenu.get(position));
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
+        pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setTitle(((TitleProvider)fragments.get(position)).getTitle());
+                mDrawerList.setItemChecked(position, true);
+            }
+        });
+
+        mDrawerList.setItemChecked(0, true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(

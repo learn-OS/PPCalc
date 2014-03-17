@@ -19,6 +19,9 @@
                 android:inputType="numberDecimal" android:hint="@string/nil" >
                 <requestFocus />
             </EditText>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp" android:id="@+id/unitFat"/>
         </TableRow>
         <TableRow android:layout_width="match_parent">
             <TextView
@@ -29,10 +32,11 @@
                 android:id="@+id/editKCal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" android:hint="@string/nil" />
+                android:inputType="numberDecimal"
+                android:hint="@string/nil" />
         </TableRow>
         <TableRow android:layout_width="match_parent">
-            <Button android:layout_span="2" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/bCalculate" android:text="@string/calculate" />
+            <Button android:layout_span="3" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/bCalculate" android:text="@string/calculate" />
         </TableRow>
     </TableLayout>
 </LinearLayout>

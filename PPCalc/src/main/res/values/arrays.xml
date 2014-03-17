@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="units">
+        <item name="grams">@string/grams</item>
+        <item name="kilograms">@string/kilos</item>
+        <item name="ounces">@string/ounces</item>
+        <item name="pounds">@string/pounds</item>
+    </array>
+    <array name="unitsValues">
+        <item name="grams">grams</item>
+        <item name="kilograms">kilograms</item>
+        <item name="ounces">ounces</item>
+        <item name="pounds">pounds</item>
+    </array>
+</resources>

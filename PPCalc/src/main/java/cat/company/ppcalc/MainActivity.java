@@ -1,9 +1,12 @@
 package cat.company.ppcalc;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -28,6 +31,7 @@ import cat.company.ppcalc.adapters.PagerAdapter;
 import cat.company.ppcalc.calculator.Unit;
 import cat.company.ppcalc.fragments.FlexiPointsCalculatorFragment;
 import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
+import cat.company.ppcalc.preferences.OldPreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
 public class MainActivity extends ActionBarActivity {
@@ -39,6 +43,8 @@ public class MainActivity extends ActionBarActivity {
     private ListView mDrawerList;
     private Vector<String> drawerMenu;
     private ActionBarDrawerToggle mDrawerToggle;
+
+    private int previousSelectedDrawer=0;
 
     public MainActivity(){
         context=this;
@@ -67,6 +73,9 @@ public class MainActivity extends ActionBarActivity {
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
             drawerMenu.add(mPagerAdapter.getPageTitle(i));
         }
+
+        drawerMenu.add(getString(R.string.settings));
+
         actionBar.setTitle(((TitleProvider)fragments.get(0)).getTitle());
         if(Build.VERSION.SDK_INT>=11)
             mDrawerList.setAdapter(new ArrayAdapter<String>(this,
@@ -79,7 +88,14 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                pager.setCurrentItem(position);
+                if(position==2){
+                    startActivity(new Intent(context, OldPreferencesActivity.class));
+                    mDrawerList.setItemChecked(previousSelectedDrawer, true);
+                }
+                else{
+                    pager.setCurrentItem(position);
+                    previousSelectedDrawer=position;
+                }
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
@@ -88,6 +104,9 @@ public class MainActivity extends ActionBarActivity {
             public void onPageSelected(int position) {
                 actionBar.setTitle(((TitleProvider)fragments.get(position)).getTitle());
                 mDrawerList.setItemChecked(position, true);
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+                editor.putInt("defaultPage", position);
+                editor.commit();
             }
         });
 
@@ -118,6 +137,10 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
+        pager.setCurrentItem(page,true);
+        previousSelectedDrawer=page;
 
         AdView adView = (AdView) this.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()

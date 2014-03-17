@@ -21,7 +21,11 @@
     <string name="kilos">公斤</string>
     <string name="pounds">英镑</string>
     <string name="ounces">盎司</string>
-    <string name="kilocalories">Kcal</string>
+    <string name="kilocalories">千卡</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
+    <string name="preferredUnit" />
+    <string name="settings">首</string>
+    <string name="propoints">Propoints</string>
+    <string name="flexipoints">Flexipoints</string>
 </resources>

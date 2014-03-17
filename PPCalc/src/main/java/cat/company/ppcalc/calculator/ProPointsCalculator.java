@@ -1,31 +1,27 @@
 package cat.company.ppcalc.calculator;
 
 import android.text.Editable;
-import android.view.Menu;
-import android.view.MenuItem;
-
-import cat.company.ppcalc.R;
 
 public class ProPointsCalculator {
     private double protein;
     private double carbs;
     private double fat;
     private double fibre;
-    private Unit.UnitEnum unit;
+    private String unit;
 
     private ProPointsCalculator() {
         protein = 0;
         carbs = 0;
         fat = 0;
         fibre = 0;
-        unit= Unit.UnitEnum.Grams;
+        unit= "grams";
     }
 
     public static ProPointsCalculator CreateInstance() {
         return new ProPointsCalculator();
     }
 
-    public ProPointsCalculator setUnit(Unit.UnitEnum unit){
+    public ProPointsCalculator setUnit(String unit){
         this.unit=unit;
         return this;
     }
@@ -76,15 +72,13 @@ public class ProPointsCalculator {
                 : 0;
     }
 
-    private double adaptUnits(double value){
-        switch (unit){
-            case Kilos:
-                return  value*1000;
-            case Ounce:
-                return value*28.349523125;
-            case Pounds:
-                return value*453.59237;
-        }
+    private double adaptUnits(double value) {
+        if (unit.equals("kilograms"))
+            return value * 1000;
+        if (unit.equals("ounces"))
+            return value * 28.349523125;
+        if (unit.equals("pounds"))
+            return value * 453.59237;
         return value;
     }
 

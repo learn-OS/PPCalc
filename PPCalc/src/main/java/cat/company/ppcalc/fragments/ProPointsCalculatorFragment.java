@@ -1,10 +1,10 @@
 package cat.company.ppcalc.fragments;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.view.ContextThemeWrapper;
@@ -14,31 +14,34 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import cat.company.ppcalc.R;
-import cat.company.ppcalc.adapters.UnitSpinnerAdapter;
 import cat.company.ppcalc.calculator.ProPointsCalculator;
-import cat.company.ppcalc.calculator.Unit;
 import cat.company.ppcalc.util.TitleProvider;
 
 /**
  * Created by carles on 13/01/14.
+ * Propoints Calculator.
  */
-public class ProPointsCalculatorFragment extends Fragment implements TitleProvider {
-
-    private Unit.UnitEnum unit;
+public class ProPointsCalculatorFragment extends Fragment implements TitleProvider,SharedPreferences.OnSharedPreferenceChangeListener {
     private View v;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).registerOnSharedPreferenceChangeListener(this);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroy();
     }
 
     @Override
@@ -46,7 +49,6 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         v=inflater.inflate(R.layout.propoints, container,false);
         if(v==null)
             return null;
-        unit= Unit.UnitEnum.Grams;
         Button bCalc = ((Button) v.findViewById(R.id.bCalculate));
         bCalc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,35 +56,24 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
                 calculate();
             }
         });
-        ArrayList<Unit> itemsUnit=new ArrayList<Unit>();
-        itemsUnit.add(new Unit(Unit.UnitEnum.Grams,this.getResources().getString(R.string.grams)));
-        itemsUnit.add(new Unit(Unit.UnitEnum.Kilos,this.getResources().getString(R.string.kilos)));
-        itemsUnit.add(new Unit(Unit.UnitEnum.Ounce,this.getResources().getString(R.string.ounces)));
-        itemsUnit.add(new Unit(Unit.UnitEnum.Pounds,this.getResources().getString(R.string.pounds)));
-        Spinner spUnits=(Spinner) v.findViewById(R.id.unit);
-        UnitSpinnerAdapter spinner_adapter = new UnitSpinnerAdapter(getActivity(),itemsUnit);
-        spUnits.setAdapter(spinner_adapter);
-        spUnits.setSelection(getActivity().getPreferences(Context.MODE_PRIVATE).getInt("spinnerPosition",0));
-        spUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getId() == R.id.unit) {
-                    Unit item = (Unit) parent.getItemAtPosition(position);
-                    if (item != null) {
-                        unit = item.getId();
-                        SharedPreferences.Editor editor = getActivity().getPreferences(Context.MODE_PRIVATE).edit();
-                        editor.putInt("spinnerPosition", position);
-                        editor.commit();
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        SetUnits(v);
         return v;
+    }
+
+    private void SetUnits(View view) {
+        String unit= PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("selected_unit","grams");
+        String[] unitsValues=getResources().getStringArray(R.array.unitsValues);
+        String[] units=getResources().getStringArray(R.array.units);
+        int index= Arrays.asList(unitsValues).indexOf(unit);
+        String unitName=units[index];
+        TextView carbsView = (TextView) view.findViewById(R.id.unitCarbs);
+        carbsView.setText(unitName);
+        TextView fatView=(TextView) view.findViewById(R.id.unitFat);
+        fatView.setText(unitName);
+        TextView fibreView=(TextView) view.findViewById(R.id.unitFibre);
+        fibreView.setText(unitName);
+        TextView proteinView=(TextView) view.findViewById(R.id.unitProtein);
+        proteinView.setText(unitName);
     }
 
     public void calculate() {
@@ -91,7 +82,7 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         EditText tFat = (EditText) v.findViewById(R.id.editFat);
         EditText tFibre = (EditText) v.findViewById(R.id.editFibre);
         AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme));
-        bd.setTitle(R.string.points);
+        bd.setTitle(R.string.propoints);
         bd.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -101,6 +92,8 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         Editable proteinText = tProtein.getText();
         Editable fatText = tFat.getText();
         Editable fibreText = tFibre.getText();
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String unit=sharedPreferences.getString("selected_unit", "grams");
         int points = ProPointsCalculator
                 .CreateInstance()
                 .setUnit(unit)
@@ -119,13 +112,11 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         EditText tProtein = (EditText) v.findViewById(R.id.editProtein);
         EditText tFat = (EditText) v.findViewById(R.id.editFat);
         EditText tFibre = (EditText) v.findViewById(R.id.editFibre);
-        Spinner spUnits=(Spinner) v.findViewById(R.id.unit);
 
         tCarbs.setText("");
         tProtein.setText("");
         tFat.setText("");
         tFibre.setText("");
-        spUnits.setSelection(getActivity().getPreferences(Context.MODE_PRIVATE).getInt("spinnerPosition",0));
         tProtein.requestFocus();
     }
 
@@ -149,5 +140,10 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
     @Override
     public String getTitle() {
         return "ProPoints";
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        SetUnits(getView());
     }
 }

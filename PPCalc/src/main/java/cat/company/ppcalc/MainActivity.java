@@ -31,7 +31,6 @@ import cat.company.ppcalc.adapters.PagerAdapter;
 import cat.company.ppcalc.calculator.Unit;
 import cat.company.ppcalc.fragments.FlexiPointsCalculatorFragment;
 import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
-import cat.company.ppcalc.preferences.OldPreferencesActivity;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
@@ -90,10 +89,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==2) {
-                    if (Build.VERSION.SDK_INT >= 11)
-                        startActivity(new Intent(context, PreferencesActivity.class));
-                    else
-                        startActivity(new Intent(context, OldPreferencesActivity.class));
+                    startActivity(new Intent(context, PreferencesActivity.class));
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 }
                 else{

@@ -1,6 +1,8 @@
 package cat.company.ppcalc.preferences;
 
 import android.annotation.TargetApi;
+import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -13,6 +15,14 @@ import cat.company.ppcalc.R;
  * Created by carles on 18/03/14.
  */
 public class PreferencesActivity extends PreferenceActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            addPreferencesFromResource(R.xml.preference_main_old);
+        }
+    }
 
     @Override
     @TargetApi(11)

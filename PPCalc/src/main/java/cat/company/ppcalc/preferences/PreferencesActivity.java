@@ -1,21 +1,24 @@
 package cat.company.ppcalc.preferences;
 
-import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.preference.PreferenceActivity;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
+import java.util.List;
+
 import cat.company.ppcalc.R;
 
 /**
- * Created by carles on 15/03/14.
- * Preference for pre-v9.
+ * Created by carles on 18/03/14.
  */
-public class OldPreferencesActivity extends PreferenceActivity{
+public class PreferencesActivity extends PreferenceActivity {
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preference_main_old);
+    @TargetApi(11)
+    public void onBuildHeaders(List<Header> target) {
+        super.onBuildHeaders(target);
+        loadHeadersFromResource(R.xml.preference_headers,target);
     }
 
     @Override
@@ -28,5 +31,10 @@ public class OldPreferencesActivity extends PreferenceActivity{
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        return true;
     }
 }

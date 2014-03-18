@@ -1,18 +1,18 @@
 <resources>
-    <string name="app_name">"PPCalc"</string>
-    <string name="protein">"Protein"</string>
-    <string name="carbs">"Kohlenhydrate"</string>
-    <string name="fat">"Fett"</string>
-    <string name="fibre">"Fibre"</string>
-    <string name="calculate">"Kalkulieren"</string>
-    <string name="init">"Init"</string>
-    <string name="nil">"0"</string>
-    <string name="points">"Punkte"</string>
+    <string name="app_name">PPCalc</string>
+    <string name="protein">Protein</string>
+    <string name="carbs">Kohlenhydrate</string>
+    <string name="fat">Fett</string>
+    <string name="fibre">Fibre</string>
+    <string name="calculate">Kalkulieren</string>
+    <string name="init">Init</string>
+    <string name="nil">0</string>
+    <string name="points">Punkte</string>
     <string name="unit">Einheiten</string>
 	<plurals name="num_points">
-        <item quantity="zero">"Kein punkt."</item>
-        <item quantity="one">"Ein punkt."</item>
-        <item quantity="other">"%d punkte."</item>
+        <item quantity="zero">Kein punkt.</item>
+        <item quantity="one">Ein punkt.</item>
+        <item quantity="other">%d punkte.</item>
     </plurals>
     <string name="grams">Gramm</string>
     <string name="kilos">Kilogramm</string>
@@ -21,8 +21,10 @@
     <string name="kilocalories">Kcal</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
-    <string name="preferredUnit" />
+    <string name="preferredUnit">Wählen Sie die Einheiten.</string>
     <string name="settings">Einstellungen</string>
     <string name="propoints">Propoints</string>
     <string name="flexipoints">Flexipoints</string>
+    <string name="main">Main</string>
+    <string name="main_summary">Allgemeine Einstellungen</string>
 </resources>

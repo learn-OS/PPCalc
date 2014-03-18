@@ -21,8 +21,10 @@
     <string name="kilocalories">Kcal</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
-    <string name="preferredUnit" />
+    <string name="preferredUnit">Selecciona las unidades.</string>
     <string name="settings">Preferencias</string>
     <string name="propoints">Propoints</string>
     <string name="flexipoints">Flexipoints</string>
+    <string name="main">Principal</string>
+    <string name="main_summary">Preferencias generales</string>
 </resources>

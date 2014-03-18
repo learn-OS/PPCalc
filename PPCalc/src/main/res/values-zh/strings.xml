@@ -24,8 +24,10 @@
     <string name="kilocalories">千卡</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
-    <string name="preferredUnit" />
+    <string name="preferredUnit">选择的单位。</string>
     <string name="settings">首</string>
     <string name="propoints">Propoints</string>
     <string name="flexipoints">Flexipoints</string>
+    <string name="main">主</string>
+    <string name="main_summary">一般偏好</string>
 </resources>

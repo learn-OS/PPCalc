@@ -18,8 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.Arrays;
 
+import cat.company.ppcalc.Application;
 import cat.company.ppcalc.R;
 import cat.company.ppcalc.calculator.ProPointsCalculator;
 import cat.company.ppcalc.util.TitleProvider;
@@ -58,6 +62,19 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         });
         SetUnits(v);
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Tracker t = ((Application) getActivity().getApplication()).getTracker();
+
+        // Set screen name.
+        // Where path is a String representing the screen name.
+        t.setScreenName("Propoints");
+
+        // Send a screen view.
+        t.send(new HitBuilders.AppViewBuilder().build());
     }
 
     private void SetUnits(View view) {

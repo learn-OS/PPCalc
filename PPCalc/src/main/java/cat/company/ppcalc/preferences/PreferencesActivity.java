@@ -5,10 +5,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 
+import cat.company.ppcalc.Application;
 import cat.company.ppcalc.R;
 
 /**
@@ -32,15 +34,16 @@ public class PreferencesActivity extends PreferenceActivity {
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
-    }
+        Tracker t = ((Application) getApplication()).getTracker();
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
+        // Set screen name.
+        // Where path is a String representing the screen name.
+        t.setScreenName("Propoints");
+
+        // Send a screen view.
+        t.send(new HitBuilders.AppViewBuilder().build());
     }
 
     @Override

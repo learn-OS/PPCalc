@@ -8,8 +8,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/PPCalc" />
+            <option value="C:\Users\company\Documents\PPCalc" />
+            <option value="C:\Users\company\Documents\PPCalc\PPCalc" />
           </set>
         </option>
       </GradleProjectSettings>

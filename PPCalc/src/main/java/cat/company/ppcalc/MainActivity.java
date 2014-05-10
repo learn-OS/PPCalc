@@ -20,16 +20,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 import java.util.Vector;
 
 import cat.company.ppcalc.adapters.PagerAdapter;
+import cat.company.ppcalc.ads.MyAdListener;
 import cat.company.ppcalc.calculator.Unit;
 import cat.company.ppcalc.fragments.FlexiPointsCalculatorFragment;
 import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
@@ -43,7 +41,6 @@ public class MainActivity extends ActionBarActivity{
     private ViewPager pager;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private Vector<String> drawerMenu;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private int previousSelectedDrawer=0;
@@ -71,7 +68,7 @@ public class MainActivity extends ActionBarActivity{
         pager = (ViewPager) findViewById(R.id.content);
 
         pager.setAdapter(mPagerAdapter);
-        drawerMenu = new Vector<String>();
+        Vector<String> drawerMenu = new Vector<String>();
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
             drawerMenu.add(mPagerAdapter.getPageTitle(i));
         }
@@ -148,6 +145,8 @@ public class MainActivity extends ActionBarActivity{
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
         adView.loadAd(adRequest);
+        MyAdListener adListener=new MyAdListener(((Application)getApplication()).getTracker());
+        adView.setAdListener(adListener);
     }
 
     @Override

@@ -91,6 +91,8 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         fibreView.setText(unitName);
         TextView proteinView=(TextView) view.findViewById(R.id.unitProtein);
         proteinView.setText(unitName);
+        TextView portionView=(TextView) view.findViewById(R.id.unitPortion);
+        portionView.setText(unitName);
     }
 
     public void calculate() {
@@ -98,6 +100,7 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         EditText tProtein = (EditText) v.findViewById(R.id.editProtein);
         EditText tFat = (EditText) v.findViewById(R.id.editFat);
         EditText tFibre = (EditText) v.findViewById(R.id.editFibre);
+        EditText tPortion = (EditText) v.findViewById(R.id.editPortion);
         AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme));
         bd.setTitle(R.string.propoints);
         bd.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -109,11 +112,13 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         Editable proteinText = tProtein.getText();
         Editable fatText = tFat.getText();
         Editable fibreText = tFibre.getText();
+        Editable portionText=tPortion.getText();
         SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
         String unit=sharedPreferences.getString("selected_unit", "grams");
         int points = ProPointsCalculator
                 .CreateInstance()
                 .setUnit(unit)
+                .setPortion(portionText)
                 .addCarbs(carbsText)
                 .addProteins(proteinText)
                 .addFat(fatText)
@@ -142,6 +147,22 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         switch (item.getItemId()) {
             case R.id.init:
                 init();
+                return true;
+            case R.id.help:
+                String unit= PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("selected_unit","grams");
+                String[] unitsValues=getResources().getStringArray(R.array.unitsValues);
+                String[] units=getResources().getStringArray(R.array.units);
+                int index= Arrays.asList(unitsValues).indexOf(unit);
+                String unitName=units[index];
+                AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme));
+                bd.setTitle(R.string.help);
+                bd.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                bd.setMessage(getResources().getString(R.string.helpMessage,unitName.toLowerCase()));
+                bd.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

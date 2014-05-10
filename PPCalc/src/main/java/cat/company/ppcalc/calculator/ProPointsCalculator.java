@@ -8,12 +8,14 @@ public class ProPointsCalculator {
     private double fat;
     private double fibre;
     private String unit;
+    private double portion;
 
     private ProPointsCalculator() {
         protein = 0;
         carbs = 0;
         fat = 0;
         fibre = 0;
+        portion=0;
         unit= "grams";
     }
 
@@ -84,6 +86,15 @@ public class ProPointsCalculator {
 
     public int calculate() {
         double points = Math.max(Math.round((16 * adaptUnits(protein) + 19 * adaptUnits(carbs) + 45 * adaptUnits(fat) + 5 * adaptUnits(fibre)) / 175), 0);
-        return (int) points;
+        return (int) (points*adaptPortion(portion));
+    }
+
+    private double adaptPortion(double portion) {
+        return portion/100;
+    }
+
+    public ProPointsCalculator setPortion(Editable portionText) {
+        this.portion=EditableToDouble(portionText);
+        return this;
     }
 }

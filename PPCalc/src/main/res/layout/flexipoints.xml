@@ -36,6 +36,20 @@
                 android:hint="@string/nil" />
         </TableRow>
         <TableRow android:layout_width="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/portion" android:layout_marginRight="3dp" />
+            <EditText
+                android:id="@+id/editPortion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="100"
+                android:inputType="numberDecimal" android:hint="@string/nil" />
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp" android:id="@+id/unitPortion"/>
+        </TableRow>
+        <TableRow android:layout_width="match_parent">
             <Button android:layout_span="3" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/bCalculate" android:text="@string/calculate" />
         </TableRow>
     </TableLayout>

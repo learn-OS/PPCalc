@@ -40,7 +40,7 @@ public class PreferencesActivity extends PreferenceActivity {
 
         // Set screen name.
         // Where path is a String representing the screen name.
-        t.setScreenName("Propoints");
+        t.setScreenName("Preferences");
 
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());

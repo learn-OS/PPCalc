@@ -10,10 +10,12 @@ public class FlexiPointsCalculator {
     private double kiloCalories;
     private double fat;
     private String unit;
+    private double portion;
 
     FlexiPointsCalculator(){
         kiloCalories=0;
         fat=0;
+        portion=0;
         unit="grams";
     }
 
@@ -48,7 +50,11 @@ public class FlexiPointsCalculator {
 
     public int calculate() {
         double points = Math.max(Math.round((kiloCalories/60)+(adaptUnits(fat)/9)), 0);
-        return (int) points;
+        return (int) (points*adaptPortion(portion));
+    }
+
+    private double adaptPortion(double portion) {
+        return portion/100;
     }
 
     private double EditableToDouble(Editable editable) {
@@ -65,5 +71,10 @@ public class FlexiPointsCalculator {
         if (unit.equals("pounds"))
             return value * 453.59237;
         return value;
+    }
+
+    public FlexiPointsCalculator setPortion(Editable portion) {
+        this.portion=EditableToDouble(portion);
+        return this;
     }
 }

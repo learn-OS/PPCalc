@@ -13,6 +13,8 @@
         <item quantity="zero">Нулевой точки.</item>
         <item quantity="one">%d точки.</item>
         <item quantity="other">%d очки.</item>
+        <item quantity="few">мало</item>
+        <item quantity="many">многие</item>
     </plurals>
     <string name="grams">грамм</string>
     <string name="kilos">Килограммы</string>
@@ -27,4 +29,7 @@
     <string name="flexipoints">Flexipoints</string>
     <string name="main">основной</string>
     <string name="main_summary">Общие предпочтения</string>
+    <string name="portion">Порция</string>
+    <string name="help">Помощь</string>
+    <string name="helpMessage">Введите значения для 100 %s и введите часть.</string>
 </resources>

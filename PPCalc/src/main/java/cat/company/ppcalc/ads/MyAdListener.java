@@ -6,6 +6,7 @@ import com.google.android.gms.analytics.Tracker;
 
 /**
  * Created by company on 28/03/2014.
+ * AdListener
  */
 public class MyAdListener extends AdListener {
     Tracker tracker;
@@ -19,6 +20,7 @@ public class MyAdListener extends AdListener {
         super.onAdOpened();
 
         // Send a screen view.
+
         tracker.send(new HitBuilders
                 .EventBuilder()
                 .setCategory("ad")

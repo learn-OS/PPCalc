@@ -27,4 +27,7 @@
     <string name="flexipoints">Flexipoints</string>
     <string name="main">Main</string>
     <string name="main_summary">Allgemeine Einstellungen</string>
+    <string name="portion">Teil</string>
+    <string name="help">Hilfe</string>
+    <string name="helpMessage">Geben Sie die Werte für 100 Gramm und geben Sie das Teil.</string>
 </resources>

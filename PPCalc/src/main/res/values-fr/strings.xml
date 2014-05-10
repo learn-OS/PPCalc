@@ -27,4 +27,7 @@
     <string name="flexipoints">Flexipoints</string>
     <string name="main">Principal</string>
     <string name="main_summary">Préférences générales</string>
+    <string name="portion">Partie</string>
+    <string name="help">Aide</string>
+    <string name="helpMessage">Entrez les valeurs pour 100 grammes et entrez la partie.</string>
 </resources>

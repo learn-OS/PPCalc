@@ -10,6 +10,7 @@ import cat.company.ppcalc.util.TitleProvider;
 
 /**
  * Created by carles on 28/02/14.
+ * Adapter for ther fragment pager.
  */
 public class PagerAdapter extends FragmentPagerAdapter {
 

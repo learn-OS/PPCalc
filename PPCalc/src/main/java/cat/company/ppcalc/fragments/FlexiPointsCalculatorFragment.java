@@ -81,6 +81,7 @@ public class FlexiPointsCalculatorFragment extends Fragment implements TitleProv
     private void calculate() {
         EditText tFat = (EditText) v.findViewById(R.id.editFat);
         EditText tCal = (EditText) v.findViewById(R.id.editKCal);
+        EditText tPortion =(EditText) v.findViewById(R.id.editPortion);
         AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme));
         bd.setTitle(R.string.flexipoints);
         bd.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -90,10 +91,12 @@ public class FlexiPointsCalculatorFragment extends Fragment implements TitleProv
         });
         Editable fatText = tFat.getText();
         Editable calText = tCal.getText();
+        Editable portionText=tCal.getText();
         SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
         String unit=sharedPreferences.getString("selected_unit", "grams");
         int points= FlexiPointsCalculator.CreateInstance()
                 .setUnit(unit)
+                .setPortion(portionText)
                 .addFat(fatText)
                 .addCalories(calText)
                 .calculate();
@@ -116,6 +119,22 @@ public class FlexiPointsCalculatorFragment extends Fragment implements TitleProv
         switch (item.getItemId()) {
             case R.id.init:
                 init();
+                return true;
+            case R.id.help:
+                String unit= PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("selected_unit","grams");
+                String[] unitsValues=getResources().getStringArray(R.array.unitsValues);
+                String[] units=getResources().getStringArray(R.array.units);
+                int index= Arrays.asList(unitsValues).indexOf(unit);
+                String unitName=units[index];
+                AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme));
+                bd.setTitle(R.string.help);
+                bd.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                bd.setMessage(getResources().getString(R.string.helpMessage,unitName.toLowerCase()));
+                bd.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

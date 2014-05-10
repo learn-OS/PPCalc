@@ -30,4 +30,7 @@
     <string name="flexipoints">Flexipoints</string>
     <string name="main">主</string>
     <string name="main_summary">一般偏好</string>
+    <string name="portion">部分</string>
+    <string name="help">帮助</string>
+    <string name="helpMessage">输入值100 %s 和输入的部分。</string>
 </resources>

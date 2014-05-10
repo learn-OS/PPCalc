@@ -27,4 +27,7 @@
     <string name="flexipoints">Flexipoints</string>
     <string name="main">Principal</string>
     <string name="main_summary">Preferencias generales</string>
+    <string name="portion">Porción</string>
+    <string name="help">Ayuda</string>
+    <string name="helpMessage">Introduce los valores por 100 %s y introduce la porción.</string>
 </resources>

@@ -108,9 +108,11 @@ public class FlexiPointsCalculatorFragment extends Fragment implements TitleProv
     public void init() {
         EditText tFat = (EditText) v.findViewById(R.id.editFat);
         EditText tKcal = (EditText) v.findViewById(R.id.editKCal);
+        EditText tPortion=(EditText) v.findViewById(R.id.editPortion);
 
         tFat.setText("");
         tKcal.setText("");
+        tPortion.setText("100");
         tFat.requestFocus();
     }
 

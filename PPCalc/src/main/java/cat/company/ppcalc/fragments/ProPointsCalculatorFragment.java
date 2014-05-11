@@ -134,11 +134,13 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         EditText tProtein = (EditText) v.findViewById(R.id.editProtein);
         EditText tFat = (EditText) v.findViewById(R.id.editFat);
         EditText tFibre = (EditText) v.findViewById(R.id.editFibre);
+        EditText tPortion=(EditText) v.findViewById(R.id.editPortion);
 
         tCarbs.setText("");
         tProtein.setText("");
         tFat.setText("");
         tFibre.setText("");
+        tPortion.setText("100");
         tProtein.requestFocus();
     }
 

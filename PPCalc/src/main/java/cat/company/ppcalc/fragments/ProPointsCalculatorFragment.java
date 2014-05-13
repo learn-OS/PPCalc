@@ -166,6 +166,9 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
                 bd.setMessage(getResources().getString(R.string.helpMessage,unitName.toLowerCase()));
                 bd.show();
                 return true;
+            case R.id.calculate:
+                calculate();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

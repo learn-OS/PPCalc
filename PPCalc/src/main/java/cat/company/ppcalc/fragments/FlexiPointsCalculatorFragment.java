@@ -138,6 +138,9 @@ public class FlexiPointsCalculatorFragment extends Fragment implements TitleProv
                 bd.setMessage(getResources().getString(R.string.helpMessage,unitName.toLowerCase()));
                 bd.show();
                 return true;
+            case R.id.calculate:
+                calculate();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

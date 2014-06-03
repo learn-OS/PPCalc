@@ -30,4 +30,5 @@
     <string name="portion">Teil</string>
     <string name="help">Hilfe</string>
     <string name="helpMessage">Geben Sie die Werte für 100 Gramm und geben Sie das Teil.</string>
+    <string name="pointsplus">PointsPlus</string>
 </resources>

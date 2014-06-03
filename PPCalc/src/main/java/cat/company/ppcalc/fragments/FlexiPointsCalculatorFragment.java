@@ -159,7 +159,9 @@ public class FlexiPointsCalculatorFragment extends Fragment implements TitleProv
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        SetUnits(getView());
+        View view = getView();
+        if(view!=null)
+            SetUnits(view);
     }
 
     private void SetUnits(View view) {

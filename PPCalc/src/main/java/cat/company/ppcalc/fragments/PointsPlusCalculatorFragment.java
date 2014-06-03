@@ -25,14 +25,14 @@ import java.util.Arrays;
 
 import cat.company.ppcalc.Application;
 import cat.company.ppcalc.R;
-import cat.company.ppcalc.calculator.ProPointsCalculator;
+import cat.company.ppcalc.calculator.PointsPlusCalculator;
 import cat.company.ppcalc.util.TitleProvider;
 
 /**
- * Created by carles on 13/01/14.
- * Propoints Calculator.
+ * Points plus calculator fragment.
+ * Created by carles on 03/06/14.
  */
-public class ProPointsCalculatorFragment extends Fragment implements TitleProvider,SharedPreferences.OnSharedPreferenceChangeListener {
+public class PointsPlusCalculatorFragment extends Fragment implements TitleProvider,SharedPreferences.OnSharedPreferenceChangeListener {
     protected View v;
 
     @Override
@@ -50,7 +50,7 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v=inflater.inflate(R.layout.propoints, container,false);
+        v=inflater.inflate(R.layout.pointsplus, container,false);
         if(v==null)
             return null;
         Button bCalc = ((Button) v.findViewById(R.id.bCalculate));
@@ -71,7 +71,7 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
 
         // Set screen name.
         // Where path is a String representing the screen name.
-        t.setScreenName("Propoints");
+        t.setScreenName("PointsPlus");
 
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
@@ -102,7 +102,7 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         EditText tFibre = (EditText) v.findViewById(R.id.editFibre);
         EditText tPortion = (EditText) v.findViewById(R.id.editPortion);
         AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme));
-        bd.setTitle(R.string.propoints);
+        bd.setTitle(R.string.pointsplus);
         bd.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -115,7 +115,7 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
         Editable portionText=tPortion.getText();
         SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
         String unit=sharedPreferences.getString("selected_unit", "grams");
-        int points = ProPointsCalculator
+        int points = PointsPlusCalculator
                 .CreateInstance()
                 .setUnit(unit)
                 .setPortion(portionText)
@@ -182,7 +182,7 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
 
     @Override
     public String getTitle() {
-        return "ProPoints";
+        return "PointsPlus";
     }
 
     @Override

@@ -31,4 +31,5 @@
     <string name="portion">Portion</string>
     <string name="help">Help</string>
     <string name="helpMessage">Enter the values for 100 %s and enter the portion.</string>
+    <string name="pointsplus">PointsPlus</string>
 </resources>

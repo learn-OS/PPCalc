@@ -3,14 +3,14 @@ package cat.company.ppcalc.calculator;
 import android.text.Editable;
 
 public class ProPointsCalculator {
-    private double protein;
-    private double carbs;
-    private double fat;
-    private double fibre;
+    protected double protein;
+    protected double carbs;
+    protected double fat;
+    protected double fibre;
     private String unit;
-    private double portion;
+    protected double portion;
 
-    private ProPointsCalculator() {
+    protected ProPointsCalculator() {
         protein = 0;
         carbs = 0;
         fat = 0;
@@ -74,7 +74,7 @@ public class ProPointsCalculator {
                 : 0;
     }
 
-    private double adaptUnits(double value) {
+    protected double adaptUnits(double value) {
         if (unit.equals("kilograms"))
             return value * 1000;
         if (unit.equals("ounces"))
@@ -89,7 +89,7 @@ public class ProPointsCalculator {
         return (int) (points*adaptPortion(portion));
     }
 
-    private double adaptPortion(double portion) {
+    protected double adaptPortion(double portion) {
         return portion/100;
     }
 

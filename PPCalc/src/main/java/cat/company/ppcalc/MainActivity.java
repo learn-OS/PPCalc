@@ -30,6 +30,7 @@ import cat.company.ppcalc.adapters.PagerAdapter;
 import cat.company.ppcalc.ads.MyAdListener;
 import cat.company.ppcalc.calculator.Unit;
 import cat.company.ppcalc.fragments.FlexiPointsCalculatorFragment;
+import cat.company.ppcalc.fragments.PointsPlusCalculatorFragment;
 import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
@@ -64,6 +65,8 @@ public class MainActivity extends ActionBarActivity{
                 ProPointsCalculatorFragment.class.getName()));
         fragments.add(Fragment.instantiate(this,
                 FlexiPointsCalculatorFragment.class.getName()));
+        fragments.add(Fragment.instantiate(this,
+                PointsPlusCalculatorFragment.class.getName()));
         PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         pager = (ViewPager) findViewById(R.id.content);
 
@@ -87,7 +90,7 @@ public class MainActivity extends ActionBarActivity{
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==2) {
+                if(position==3) {
                     startActivity(new Intent(context, PreferencesActivity.class));
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 }

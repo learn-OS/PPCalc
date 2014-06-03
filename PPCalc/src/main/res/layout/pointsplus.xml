@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:stretchColumns="1" android:padding="8dp">
+
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/protein" android:layout_marginRight="3dip" />
+        <EditText
+            android:id="@+id/editProtein"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" android:hint="@string/nil" >
+            <requestFocus />
+        </EditText>
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp" android:id="@+id/unitProtein"/>
+    </TableRow>
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/carbs" android:layout_marginRight="3dp" />
+        <EditText
+            android:id="@+id/editCarbs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" android:hint="@string/nil" />
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp" android:id="@+id/unitCarbs"/>
+    </TableRow>
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fat" android:layout_marginRight="3dp" />
+        <EditText
+            android:id="@+id/editFat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" android:hint="@string/nil" />
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp" android:id="@+id/unitFat"/>
+    </TableRow>
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fibre" android:layout_marginRight="3dp" />
+        <EditText
+            android:id="@+id/editFibre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" android:hint="@string/nil" />
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp" android:id="@+id/unitFibre"/>
+    </TableRow>
+    <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/portion" android:layout_marginRight="3dp" />
+        <EditText
+            android:id="@+id/editPortion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="100"
+            android:inputType="numberDecimal" android:hint="@string/nil" />
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp" android:id="@+id/unitPortion"/>
+    </TableRow>
+
+    <TableRow android:layout_width="match_parent">
+        <Button android:layout_span="3" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/bCalculate" android:text="@string/calculate" />
+    </TableRow>
+</TableLayout>

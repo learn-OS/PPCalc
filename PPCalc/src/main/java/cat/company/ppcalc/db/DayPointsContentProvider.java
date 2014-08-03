@@ -25,6 +25,8 @@ public class DayPointsContentProvider extends ContentProvider {
                 DayPointsProviderMetadata.DayPointsTableMetadata.DATE);
         sDayPointsProjectionMap.put(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS,
                 DayPointsProviderMetadata.DayPointsTableMetadata.POINTS);
+        sDayPointsProjectionMap.put(DayPointsProviderMetadata.DayPointsTableMetadata.COMMENT,
+                DayPointsProviderMetadata.DayPointsTableMetadata.COMMENT);
         sDayPointsProjectionMap.put(DayPointsProviderMetadata.DayPointsTableMetadata.CREATED_DATE,
                 DayPointsProviderMetadata.DayPointsTableMetadata.CREATED_DATE);
         sDayPointsProjectionMap.put(DayPointsProviderMetadata.DayPointsTableMetadata.MODIFIED_DATE,
@@ -52,6 +54,7 @@ public class DayPointsContentProvider extends ContentProvider {
                             + DayPointsProviderMetadata.DayPointsTableMetadata._ID + " INTEGER PRIMARY KEY,"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.DATE + " DATE,"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.POINTS + " INTEGER,"
+                            + DayPointsProviderMetadata.DayPointsTableMetadata.COMMENT+" NVARCHAR(100),"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.CREATED_DATE + " DATETIME,"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.MODIFIED_DATE + " DATETIME)"
             );

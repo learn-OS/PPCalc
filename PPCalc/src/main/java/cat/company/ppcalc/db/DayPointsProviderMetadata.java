@@ -10,7 +10,7 @@ import android.provider.BaseColumns;
 public class DayPointsProviderMetadata {
     public static final String AUTHORITY = "cat.company.ppcalc.daypointsProvider";
     public static final String DATABASE_NAME = "ppcalc.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String POINTS_TABLENAME = "daypoints";
 
     public DayPointsProviderMetadata() {}
@@ -27,6 +27,7 @@ public class DayPointsProviderMetadata {
 
         public static final String DATE = "date";
         public static final String POINTS = "points";
+        public static final String COMMENT="comment";
 
         public static final String CREATED_DATE = "created";
 

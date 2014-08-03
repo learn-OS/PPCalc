@@ -35,7 +35,7 @@ import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
-public class MainActivity extends ActionBarActivity{
+public class PointsCalculatorActivity extends ActionBarActivity{
     private Unit.UnitEnum unit;
 
     final Context context;
@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity{
 
     private int previousSelectedDrawer=0;
 
-    public MainActivity(){
+    public PointsCalculatorActivity(){
         context=this;
     }
     /**

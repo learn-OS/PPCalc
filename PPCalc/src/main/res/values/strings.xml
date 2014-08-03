@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">PPCalc</string>
     <string name="protein">Protein</string>
     <string name="carbs">Carbohydrates</string>
@@ -9,11 +10,13 @@
     <string name="init">Init</string>
     <string name="nil">0</string>
     <string name="points">Points</string>
+
     <plurals name="num_points">
         <item quantity="zero">Zero points.</item>
         <item quantity="one">%d point.</item>
         <item quantity="other">%d points.</item>
     </plurals>
+
     <string name="unit">Units</string>
     <string name="grams">Grams</string>
     <string name="kilos">Kilograms</string>
@@ -32,4 +35,8 @@
     <string name="help">Help</string>
     <string name="helpMessage">Enter the values for 100 %s and enter the portion.</string>
     <string name="pointsplus">PointsPlus</string>
+    <string name="title_activity_point_tracker">PointTracker</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

@@ -50,7 +50,7 @@ public class ProPointsCalculatorFragment extends Fragment implements TitleProvid
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v=inflater.inflate(R.layout.propoints, container,false);
+        v=inflater.inflate(R.layout.fragment_propoints, container,false);
         if(v==null)
             return null;
         Button bCalc = ((Button) v.findViewById(R.id.bCalculate));

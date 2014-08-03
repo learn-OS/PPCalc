@@ -51,7 +51,7 @@ public class FlexiPointsCalculatorFragment extends Fragment implements TitleProv
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v=inflater.inflate(R.layout.flexipoints, container,false);
+        v=inflater.inflate(R.layout.fragment_flexipoints, container,false);
         if(v==null)
             return null;
         Button bCalc = ((Button) v.findViewById(R.id.bCalculate));

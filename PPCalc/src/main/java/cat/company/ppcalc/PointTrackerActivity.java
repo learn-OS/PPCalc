@@ -1,13 +1,13 @@
 package cat.company.ppcalc;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+
+import cat.company.ppcalc.fragments.PointTrackerFragment;
+import cat.company.ppcalc.preferences.PreferencesActivity;
 
 public class PointTrackerActivity extends ActionBarActivity {
 
@@ -17,7 +17,7 @@ public class PointTrackerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_point_tracker);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PointTrackerFragment())
                     .commit();
         }
     }
@@ -37,24 +37,9 @@ public class PointTrackerActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(getBaseContext(), PreferencesActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_point_tracker, container, false);
-            return rootView;
-        }
-    }
 }

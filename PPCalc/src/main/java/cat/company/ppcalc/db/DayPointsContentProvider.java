@@ -36,8 +36,8 @@ public class DayPointsContentProvider extends ContentProvider {
     private static final int INCOMING_SINGLE_POINT_URI_INDICATOR = 2;
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"points", INCOMING_POINT_COLLECTION_URI_INDICATOR);
-        sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"points/#",INCOMING_SINGLE_POINT_URI_INDICATOR);
+        sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"daypoints", INCOMING_POINT_COLLECTION_URI_INDICATOR);
+        sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"daypoints/#",INCOMING_SINGLE_POINT_URI_INDICATOR);
     }
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -48,12 +48,12 @@ public class DayPointsContentProvider extends ContentProvider {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE" + DayPointsProviderMetadata.DayPointsTableMetadata.TABLE_NAME + " ("
+            db.execSQL("CREATE TABLE " + DayPointsProviderMetadata.DayPointsTableMetadata.TABLE_NAME + " ("
                             + DayPointsProviderMetadata.DayPointsTableMetadata._ID + " INTEGER PRIMARY KEY,"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.DATE + " DATE,"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.POINTS + " INTEGER,"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.CREATED_DATE + " DATETIME,"
-                            + DayPointsProviderMetadata.DayPointsTableMetadata.MODIFIED_DATE + " DATETIME,"
+                            + DayPointsProviderMetadata.DayPointsTableMetadata.MODIFIED_DATE + " DATETIME)"
             );
         }
 

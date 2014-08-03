@@ -9,7 +9,7 @@ import cat.company.ppcalc.R;
 
 /**
  * Created by carles on 18/03/14.
- * Fragment for the main preferences.
+ * Fragment for the activity_calculator preferences.
  */
 @TargetApi(11)
 @SuppressLint("NewApi")

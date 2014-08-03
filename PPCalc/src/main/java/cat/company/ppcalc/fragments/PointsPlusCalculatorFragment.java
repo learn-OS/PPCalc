@@ -50,7 +50,7 @@ public class PointsPlusCalculatorFragment extends Fragment implements TitleProvi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v=inflater.inflate(R.layout.pointsplus, container,false);
+        v=inflater.inflate(R.layout.fragment_pointsplus, container,false);
         if(v==null)
             return null;
         Button bCalc = ((Button) v.findViewById(R.id.bCalculate));

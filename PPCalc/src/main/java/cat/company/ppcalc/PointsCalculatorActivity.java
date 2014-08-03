@@ -55,7 +55,7 @@ public class PointsCalculatorActivity extends ActionBarActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_calculator);
         final ActionBar actionBar = getSupportActionBar();
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

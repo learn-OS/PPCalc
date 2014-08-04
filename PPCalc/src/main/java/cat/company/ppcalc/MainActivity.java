@@ -47,7 +47,7 @@ import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
-public class MainActivity extends ActionBarActivity{
+public class MainActivity extends ActionBarActivity {
     private Unit.UnitEnum unit;
 
     final Context context;
@@ -59,21 +59,22 @@ public class MainActivity extends ActionBarActivity{
 
     private IInAppBillingService mService;
 
-    private ServiceConnection mServiceConn=new ServiceConnection() {
+    private ServiceConnection mServiceConn = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mService = IInAppBillingService.Stub.asInterface(service);
+            RetrievePurchase();
             InitDrawer();
             InitAds();
         }
 
         public void onServiceDisconnected(ComponentName componentName) {
-            bound=false;
-            mService=null;
+            bound = false;
+            mService = null;
         }
     };
 
-    private int previousSelectedDrawer=0;
+    private int previousSelectedDrawer = 0;
     private Boolean purchased;
     private AdView adView;
     private Vector<String> drawerMenu;
@@ -81,9 +82,10 @@ public class MainActivity extends ActionBarActivity{
     private List<Fragment> fragments;
     private PagerAdapter mPagerAdapter;
 
-    public MainActivity(){
-        context=this;
+    public MainActivity() {
+        context = this;
     }
+
     /**
      * Called when the activity is first created.
      */
@@ -91,38 +93,11 @@ public class MainActivity extends ActionBarActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        bound=false;
+        bound = false;
+        purchased = false;
         getApplicationContext().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"),
                 mServiceConn, Context.BIND_AUTO_CREATE);
-        purchased = false;
 
-        try {
-            if(mService!=null&&mService.isBillingSupported(3,getPackageName(),"inapp")==RESULT_OK){
-            Bundle ownedItems = mService.getPurchases(3, getPackageName(), "inapp", null);
-            int response = ownedItems.getInt("RESPONSE_CODE");
-            if (response == 0) {
-                ArrayList<String> ownedSkus =
-                        ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
-                ArrayList<String> purchaseDataList =
-                        ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
-                ArrayList<String> signatureList =
-                        ownedItems.getStringArrayList("INAPP_DATA_SIGNATURE");
-                String continuationToken =
-                        ownedItems.getString("INAPP_CONTINUATION_TOKEN");
-
-                for (int i = 0; i < purchaseDataList.size(); ++i) {
-                    String purchaseData = purchaseDataList.get(i);
-                    String signature = signatureList.get(i);
-                    String sku = ownedSkus.get(i);
-                    if (sku.equals("ppcalcpro"))
-                        purchased = true;
-                }
-            }
-            }
-        }
-        catch (RemoteException ex){
-            Log.e("Main", "Error retrieving purchase.", ex);
-        }
         actionBar = getSupportActionBar();
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -148,16 +123,43 @@ public class MainActivity extends ActionBarActivity{
         getSupportActionBar().setHomeButtonEnabled(true);
 
         int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
-        pager.setCurrentItem(page,true);
-        previousSelectedDrawer=page;
+        pager.setCurrentItem(page, true);
+        previousSelectedDrawer = page;
 
         adView = (AdView) this.findViewById(R.id.adView);
 
         InitAds();
     }
 
+    private void RetrievePurchase() {
+        try {
+            if (mService != null) {
+                Bundle ownedItems = mService.getPurchases(3, getPackageName(), "inapp", null);
+                int response = ownedItems.getInt("RESPONSE_CODE");
+                if (response == 0) {
+                    ArrayList<String> ownedSkus =
+                            ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+                    ArrayList<String> purchaseDataList =
+                            ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+                    String continuationToken =
+                            ownedItems.getString("INAPP_CONTINUATION_TOKEN");
+
+                    for (int i = 0; i < purchaseDataList.size(); ++i) {
+                        String purchaseData = purchaseDataList.get(i);
+                        String sku = ownedSkus.get(i);
+                        if (sku.equals("ppcalcpro")) {
+                            purchased = true;
+                        }
+                    }
+                }
+            }
+        } catch (RemoteException ex) {
+            Log.e("Main", "Error retrieving purchase.", ex);
+        }
+    }
+
     private void InitAds() {
-        if(purchased)
+        if (purchased)
             adView.setVisibility(View.INVISIBLE);
         else {
             AdRequest adRequest = new AdRequest.Builder()
@@ -176,8 +178,8 @@ public class MainActivity extends ActionBarActivity{
 
         drawerMenu.add(getString(R.string.settings));
 
-        if(mService!=null&&!purchased) {
-            ArrayList<String> skuList = new ArrayList<String> ();
+        if (mService != null && !purchased) {
+            ArrayList<String> skuList = new ArrayList<String>();
             skuList.add("ppcalcpro");
             Bundle querySkus = new Bundle();
             querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
@@ -197,16 +199,14 @@ public class MainActivity extends ActionBarActivity{
                         if (sku.equals("ppcalcpro")) proPrice = price;
                     }
                 }
-                drawerMenu.add(getString(R.string.purchase) + " "+proPrice);
-            }
-            catch (RemoteException ex){
+                drawerMenu.add(getString(R.string.purchase) + " " + proPrice);
+            } catch (RemoteException ex) {
 
-            }
-            catch (JSONException ex){
+            } catch (JSONException ex) {
 
             }
         }
-        if(Build.VERSION.SDK_INT>=11)
+        if (Build.VERSION.SDK_INT >= 11)
             mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                     R.layout.drawer_list_item, drawerMenu));
         else
@@ -217,12 +217,11 @@ public class MainActivity extends ActionBarActivity{
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==3) {
+                if (position == 3) {
                     startActivity(new Intent(context, PreferencesActivity.class));
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
-                }
-                else if(position==4){
-                    if(mService!=null) {
+                } else if (position == 4) {
+                    if (mService != null) {
                         try {
                             Bundle buyIntentBundle = mService.getBuyIntent(3, getPackageName(),
                                     "ppcalcpro", "inapp", "");
@@ -231,15 +230,14 @@ public class MainActivity extends ActionBarActivity{
                                     1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
                                     Integer.valueOf(0));
                         } catch (RemoteException ex) {
-
+                            purchased = false;
                         } catch (IntentSender.SendIntentException ex) {
 
                         }
                     }
-                }
-                else{
+                } else {
                     pager.setCurrentItem(position);
-                    previousSelectedDrawer=position;
+                    previousSelectedDrawer = position;
                 }
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
@@ -247,7 +245,7 @@ public class MainActivity extends ActionBarActivity{
         pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                actionBar.setTitle(((TitleProvider)fragments.get(position)).getTitle());
+                actionBar.setTitle(((TitleProvider) fragments.get(position)).getTitle());
                 mDrawerList.setItemChecked(position, true);
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
                 editor.putInt("defaultPage", position);
@@ -292,19 +290,17 @@ public class MainActivity extends ActionBarActivity{
                 try {
                     JSONObject jo = new JSONObject(purchaseData);
                     String sku = jo.getString("productId");
-                    if(sku.equals("ppcalcpro")) {
+                    if (sku.equals("ppcalcpro")) {
                         adView.setVisibility(View.INVISIBLE);
                         purchased = true;
                         InitDrawer();
                     }
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        }
-        else
-            super.onActivityResult(requestCode,resultCode,data);
+        } else
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

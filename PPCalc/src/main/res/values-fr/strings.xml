@@ -31,5 +31,5 @@
     <string name="help">Aide</string>
     <string name="helpMessage">Entrez les valeurs pour 100 grammes et entrez la partie.</string>
     <string name="pointsplus">PointsPlus</string>
-    <string name="purchase">Purchase</string>
+    <string name="purchase">Retirer annonces</string>
 </resources>

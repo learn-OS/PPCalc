@@ -34,5 +34,5 @@
     <string name="help">帮助</string>
     <string name="helpMessage">输入值100 %s 和输入的部分。</string>
     <string name="pointsplus">PointsPlus</string>
-    <string name="purchase">Purchase</string>
+    <string name="purchase">删除广告</string>
 </resources>

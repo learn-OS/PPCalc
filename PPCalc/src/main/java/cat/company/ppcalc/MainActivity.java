@@ -8,6 +8,7 @@ import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -183,28 +184,48 @@ public class MainActivity extends ActionBarActivity {
             skuList.add("ppcalcpro");
             Bundle querySkus = new Bundle();
             querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
-            try {
-                String proPrice = "";
-                Bundle skuDetails = mService.getSkuDetails(3,
-                        getPackageName(), "inapp", querySkus);
-                int response = skuDetails.getInt("RESPONSE_CODE");
-                if (response == 0) {
-                    ArrayList<String> responseList
-                            = skuDetails.getStringArrayList("DETAILS_LIST");
 
-                    for (String thisResponse : responseList) {
-                        JSONObject object = new JSONObject(thisResponse);
-                        String sku = object.getString("productId");
-                        String price = object.getString("price");
-                        if (sku.equals("ppcalcpro")) proPrice = price;
+                AsyncTask<Bundle,Void,String> getDetailsTask=new AsyncTask<Bundle, Void, String>() {
+                    @Override
+                    protected String doInBackground(Bundle... bundles) {
+                        String proPrice = "";
+                        try {
+                            Bundle skuDetails = mService.getSkuDetails(3,
+                                    getPackageName(), "inapp", bundles[0]);
+                            int response = skuDetails.getInt("RESPONSE_CODE");
+                            if (response == 0) {
+                                ArrayList<String> responseList
+                                        = skuDetails.getStringArrayList("DETAILS_LIST");
+
+                                for (String thisResponse : responseList) {
+                                    JSONObject object = new JSONObject(thisResponse);
+                                    String sku = object.getString("productId");
+                                    String price = object.getString("price");
+                                    if (sku.equals("ppcalcpro")) proPrice = price;
+                                }
+                            }
+                        }
+                        catch (RemoteException ex){
+
+                        }
+                        catch (JSONException ex){
+
+                        }
+                        return proPrice;
                     }
-                }
-                drawerMenu.add(getString(R.string.purchase) + " " + proPrice);
-            } catch (RemoteException ex) {
 
-            } catch (JSONException ex) {
-
-            }
+                    @Override
+                    protected void onPostExecute(String s) {
+                        drawerMenu.add(getString(R.string.purchase) + " " + s);
+                        if (Build.VERSION.SDK_INT >= 11)
+                            mDrawerList.setAdapter(new ArrayAdapter<String>(context,
+                                    R.layout.drawer_list_item, drawerMenu));
+                        else
+                            mDrawerList.setAdapter(new ArrayAdapter<String>(context,
+                                    R.layout.drawer_list_item_old, drawerMenu));
+                    }
+                };
+            getDetailsTask.execute(querySkus);
         }
         if (Build.VERSION.SDK_INT >= 11)
             mDrawerList.setAdapter(new ArrayAdapter<String>(this,
@@ -227,14 +248,14 @@ public class MainActivity extends ActionBarActivity {
                                     "ppcalcpro", "inapp", "");
                             PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
                             startIntentSenderForResult(pendingIntent.getIntentSender(),
-                                    1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
-                                    Integer.valueOf(0));
+                                    1001, new Intent(), 0, 0,0);
                         } catch (RemoteException ex) {
                             purchased = false;
                         } catch (IntentSender.SendIntentException ex) {
 
                         }
                     }
+                    mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 } else {
                     pager.setCurrentItem(position);
                     previousSelectedDrawer = position;

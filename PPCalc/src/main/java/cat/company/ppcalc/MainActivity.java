@@ -1,11 +1,17 @@
 package cat.company.ppcalc;
 
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -13,6 +19,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
@@ -20,9 +27,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -42,9 +54,32 @@ public class MainActivity extends ActionBarActivity{
     private ViewPager pager;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private Boolean bound;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    private IInAppBillingService mService;
+
+    private ServiceConnection mServiceConn=new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mService = IInAppBillingService.Stub.asInterface(service);
+            InitDrawer();
+            InitAds();
+        }
+
+        public void onServiceDisconnected(ComponentName componentName) {
+            bound=false;
+            mService=null;
+        }
+    };
+
     private int previousSelectedDrawer=0;
+    private Boolean purchased;
+    private AdView adView;
+    private Vector<String> drawerMenu;
+    private ActionBar actionBar;
+    private List<Fragment> fragments;
+    private PagerAdapter mPagerAdapter;
 
     public MainActivity(){
         context=this;
@@ -56,29 +91,121 @@ public class MainActivity extends ActionBarActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        final ActionBar actionBar = getSupportActionBar();
+        bound=false;
+        getApplicationContext().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"),
+                mServiceConn, Context.BIND_AUTO_CREATE);
+        purchased = false;
+
+        try {
+            if(mService!=null&&mService.isBillingSupported(3,getPackageName(),"inapp")==RESULT_OK){
+            Bundle ownedItems = mService.getPurchases(3, getPackageName(), "inapp", null);
+            int response = ownedItems.getInt("RESPONSE_CODE");
+            if (response == 0) {
+                ArrayList<String> ownedSkus =
+                        ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+                ArrayList<String> purchaseDataList =
+                        ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+                ArrayList<String> signatureList =
+                        ownedItems.getStringArrayList("INAPP_DATA_SIGNATURE");
+                String continuationToken =
+                        ownedItems.getString("INAPP_CONTINUATION_TOKEN");
+
+                for (int i = 0; i < purchaseDataList.size(); ++i) {
+                    String purchaseData = purchaseDataList.get(i);
+                    String signature = signatureList.get(i);
+                    String sku = ownedSkus.get(i);
+                    if (sku.equals("ppcalcpro"))
+                        purchased = true;
+                }
+            }
+            }
+        }
+        catch (RemoteException ex){
+            Log.e("Main", "Error retrieving purchase.", ex);
+        }
+        actionBar = getSupportActionBar();
+
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        final List<Fragment> fragments = new Vector<Fragment>();
+        fragments = new Vector<Fragment>();
         fragments.add(Fragment.instantiate(this,
                 ProPointsCalculatorFragment.class.getName()));
         fragments.add(Fragment.instantiate(this,
                 FlexiPointsCalculatorFragment.class.getName()));
         fragments.add(Fragment.instantiate(this,
                 PointsPlusCalculatorFragment.class.getName()));
-        PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         pager = (ViewPager) findViewById(R.id.content);
 
         pager.setAdapter(mPagerAdapter);
-        Vector<String> drawerMenu = new Vector<String>();
+
+
+        actionBar.setTitle(((TitleProvider) fragments.get(0)).getTitle());
+        InitDrawer();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
+        pager.setCurrentItem(page,true);
+        previousSelectedDrawer=page;
+
+        adView = (AdView) this.findViewById(R.id.adView);
+
+        InitAds();
+    }
+
+    private void InitAds() {
+        if(purchased)
+            adView.setVisibility(View.INVISIBLE);
+        else {
+            AdRequest adRequest = new AdRequest.Builder()
+                    .build();
+            adView.loadAd(adRequest);
+            MyAdListener adListener = new MyAdListener(((Application) getApplication()).getTracker());
+            adView.setAdListener(adListener);
+        }
+    }
+
+    private void InitDrawer() {
+        drawerMenu = new Vector<String>();
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
             drawerMenu.add(mPagerAdapter.getPageTitle(i));
         }
 
         drawerMenu.add(getString(R.string.settings));
 
-        actionBar.setTitle(((TitleProvider)fragments.get(0)).getTitle());
+        if(mService!=null&&!purchased) {
+            ArrayList<String> skuList = new ArrayList<String> ();
+            skuList.add("ppcalcpro");
+            Bundle querySkus = new Bundle();
+            querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
+            try {
+                String proPrice = "";
+                Bundle skuDetails = mService.getSkuDetails(3,
+                        getPackageName(), "inapp", querySkus);
+                int response = skuDetails.getInt("RESPONSE_CODE");
+                if (response == 0) {
+                    ArrayList<String> responseList
+                            = skuDetails.getStringArrayList("DETAILS_LIST");
+
+                    for (String thisResponse : responseList) {
+                        JSONObject object = new JSONObject(thisResponse);
+                        String sku = object.getString("productId");
+                        String price = object.getString("price");
+                        if (sku.equals("ppcalcpro")) proPrice = price;
+                    }
+                }
+                drawerMenu.add(getString(R.string.purchase) + " "+proPrice);
+            }
+            catch (RemoteException ex){
+
+            }
+            catch (JSONException ex){
+
+            }
+        }
         if(Build.VERSION.SDK_INT>=11)
             mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                     R.layout.drawer_list_item, drawerMenu));
@@ -94,6 +221,22 @@ public class MainActivity extends ActionBarActivity{
                     startActivity(new Intent(context, PreferencesActivity.class));
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 }
+                else if(position==4){
+                    if(mService!=null) {
+                        try {
+                            Bundle buyIntentBundle = mService.getBuyIntent(3, getPackageName(),
+                                    "ppcalcpro", "inapp", "");
+                            PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
+                            startIntentSenderForResult(pendingIntent.getIntentSender(),
+                                    1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
+                                    Integer.valueOf(0));
+                        } catch (RemoteException ex) {
+
+                        } catch (IntentSender.SendIntentException ex) {
+
+                        }
+                    }
+                }
                 else{
                     pager.setCurrentItem(position);
                     previousSelectedDrawer=position;
@@ -108,7 +251,7 @@ public class MainActivity extends ActionBarActivity{
                 mDrawerList.setItemChecked(position, true);
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
                 editor.putInt("defaultPage", position);
-                editor.commit();
+                editor.apply();
             }
         });
 
@@ -136,20 +279,40 @@ public class MainActivity extends ActionBarActivity{
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1001) {
+            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 
-        int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
-        pager.setCurrentItem(page,true);
-        previousSelectedDrawer=page;
+            if (resultCode == RESULT_OK) {
+                try {
+                    JSONObject jo = new JSONObject(purchaseData);
+                    String sku = jo.getString("productId");
+                    if(sku.equals("ppcalcpro")) {
+                        adView.setVisibility(View.INVISIBLE);
+                        purchased = true;
+                        InitDrawer();
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else
+            super.onActivityResult(requestCode,resultCode,data);
+    }
 
-        AdView adView = (AdView) this.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        adView.loadAd(adRequest);
-        MyAdListener adListener=new MyAdListener(((Application)getApplication()).getTracker());
-        adView.setAdListener(adListener);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mService != null) {
+            getApplicationContext().unbindService(mServiceConn);
+        }
     }
 
     @Override

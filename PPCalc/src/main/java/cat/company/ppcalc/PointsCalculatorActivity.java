@@ -48,7 +48,7 @@ import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
-public class MainActivity extends ActionBarActivity {
+public class PointsCalculatorActivity extends ActionBarActivity {
     private Unit.UnitEnum unit;
 
     final Context context;
@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
     private List<Fragment> fragments;
     private PagerAdapter mPagerAdapter;
 
-    public MainActivity() {
+    public PointsCalculatorActivity() {
         context = this;
     }
 
@@ -100,7 +100,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_calculator);
         bound = false;
         purchased = false;
         getApplicationContext().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"),

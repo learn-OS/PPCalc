@@ -52,6 +52,8 @@ public class MainActivity extends ActionBarActivity {
     private Unit.UnitEnum unit;
 
     final Context context;
+
+    private final static String TAG="MainActivity";
     private ViewPager pager;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -61,12 +63,9 @@ public class MainActivity extends ActionBarActivity {
     private IInAppBillingService mService;
 
     private ServiceConnection mServiceConn = new ServiceConnection() {
-
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mService = IInAppBillingService.Stub.asInterface(service);
             RetrievePurchase();
-            InitDrawer();
-            InitAds();
         }
 
         public void onServiceDisconnected(ComponentName componentName) {
@@ -74,6 +73,14 @@ public class MainActivity extends ActionBarActivity {
             mService = null;
         }
     };
+
+    private void setPurchased(boolean purchased){
+        if(this.purchased!=purchased) {
+            this.purchased = purchased;
+            InitAds();
+            InitDrawer();
+        }
+    }
 
     private int previousSelectedDrawer = 0;
     private Boolean purchased;
@@ -133,30 +140,43 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void RetrievePurchase() {
-        try {
-            if (mService != null) {
-                Bundle ownedItems = mService.getPurchases(3, getPackageName(), "inapp", null);
-                int response = ownedItems.getInt("RESPONSE_CODE");
-                if (response == 0) {
-                    ArrayList<String> ownedSkus =
-                            ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
-                    ArrayList<String> purchaseDataList =
-                            ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
-                    String continuationToken =
-                            ownedItems.getString("INAPP_CONTINUATION_TOKEN");
+        AsyncTask<String,Void,Boolean> task=new AsyncTask<String, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(String... params) {
+                try {
+                    if (mService != null) {
+                        Bundle ownedItems = mService.getPurchases(3, getPackageName(), "inapp", null);
+                        int response = ownedItems.getInt("RESPONSE_CODE");
+                        if (response == 0) {
+                            ArrayList<String> ownedSkus =
+                                    ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+                            ArrayList<String> purchaseDataList =
+                                    ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+                            String continuationToken =
+                                    ownedItems.getString("INAPP_CONTINUATION_TOKEN");
 
-                    for (int i = 0; i < purchaseDataList.size(); ++i) {
-                        String purchaseData = purchaseDataList.get(i);
-                        String sku = ownedSkus.get(i);
-                        if (sku.equals("ppcalcpro")) {
-                            purchased = true;
+                            for (int i = 0; i < purchaseDataList.size(); ++i) {
+                                String purchaseData = purchaseDataList.get(i);
+                                String sku = ownedSkus.get(i);
+                                if (sku.equals(params[0])) {
+                                    return true;
+                                }
+                            }
                         }
                     }
+                } catch (RemoteException ex) {
+                    Log.e(TAG, "Error retrieving purchase.", ex);
                 }
+                return false;
             }
-        } catch (RemoteException ex) {
-            Log.e("Main", "Error retrieving purchase.", ex);
-        }
+
+            @Override
+            protected void onPostExecute(Boolean purchased) {
+                setPurchased(purchased);
+            }
+        };
+
+        task.execute("ppcalcpro");
     }
 
     private void InitAds() {
@@ -206,10 +226,10 @@ public class MainActivity extends ActionBarActivity {
                             }
                         }
                         catch (RemoteException ex){
-
+                            Log.e(TAG,"Error retrieving price.",ex);
                         }
                         catch (JSONException ex){
-
+                            Log.e(TAG,"Error parsing JSON.",ex);
                         }
                         return proPrice;
                     }
@@ -217,12 +237,6 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     protected void onPostExecute(String s) {
                         drawerMenu.add(getString(R.string.purchase) + " " + s);
-                        if (Build.VERSION.SDK_INT >= 11)
-                            mDrawerList.setAdapter(new ArrayAdapter<String>(context,
-                                    R.layout.drawer_list_item, drawerMenu));
-                        else
-                            mDrawerList.setAdapter(new ArrayAdapter<String>(context,
-                                    R.layout.drawer_list_item_old, drawerMenu));
                     }
                 };
             getDetailsTask.execute(querySkus);
@@ -240,6 +254,7 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 3) {
                     startActivity(new Intent(context, PreferencesActivity.class));
+                    drawerMenu.add("Hola");
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 } else if (position == 4) {
                     if (mService != null) {
@@ -250,9 +265,11 @@ public class MainActivity extends ActionBarActivity {
                             startIntentSenderForResult(pendingIntent.getIntentSender(),
                                     1001, new Intent(), 0, 0,0);
                         } catch (RemoteException ex) {
-                            purchased = false;
+                            Log.e(TAG,"Error purchasing.",ex);
+                            setPurchased(false);
                         } catch (IntentSender.SendIntentException ex) {
-
+                            Log.e(TAG,"Error starting purchase.",ex);
+                            setPurchased(false);
                         }
                     }
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
@@ -312,9 +329,7 @@ public class MainActivity extends ActionBarActivity {
                     JSONObject jo = new JSONObject(purchaseData);
                     String sku = jo.getString("productId");
                     if (sku.equals("ppcalcpro")) {
-                        adView.setVisibility(View.INVISIBLE);
-                        purchased = true;
-                        InitDrawer();
+                        setPurchased(true);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

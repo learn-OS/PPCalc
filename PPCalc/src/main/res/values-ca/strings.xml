@@ -32,4 +32,5 @@
     <string name="help">Ajuda</string>
     <string name="helpMessage">Introdueix els valors per 100 %s i introdueix la porció.</string>
     <string name="pointsplus">PointsPlus</string>
+    <string name="purchase">Eliminar anuncis</string>
 </resources>

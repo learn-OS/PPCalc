@@ -38,4 +38,6 @@
     <string name="ok">Ok</string>
     <string name="add_points">Add points</string>
     <string name="cancel">Cancel</string>
+    <string name="delete">delete</string>
+    <string name="deleting">Deleting...</string>
 </resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/blau_fosc" android:state_activated="true" android:drawable="@color/blau_fosc" />
+    <item android:color="@android:color/background_light" android:drawable="@android:color/background_light" />
+</selector>

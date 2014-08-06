@@ -1,17 +1,21 @@
 package cat.company.ppcalc.fragments;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
@@ -28,10 +32,9 @@ import cat.company.ppcalc.interfaces.IRefreshable;
 
 public class PointTrackerFragment extends Fragment implements IRefreshable {
 
-    private View v;
+    public static final String TAG = "PointTrackerFragment";
     private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_URI;
     private DayPointsCursorAdapter adapter;
-    private Cursor cursor;
 
     public PointTrackerFragment(){
         setHasOptionsMenu(true);
@@ -40,14 +43,64 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_point_tracker, container, false);
-        ListView list= (ListView) v.findViewById(R.id.pointsList);
-        Activity a = getActivity();
-
+        View view = inflater.inflate(R.layout.fragment_point_tracker, container, false);
+        ListView list= (ListView) view.findViewById(R.id.pointsList);
         adapter=new DayPointsCursorAdapter(getActivity(),null,0);
         reload();
         list.setAdapter(adapter);
-        return v;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB)
+          AddMultiselection(list);
+        return view;
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void AddMultiselection(final ListView list) {
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
+                actionMode.setSubtitle(String.format("%d selected elements.",list.getCheckedItemCount()));
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                actionMode.setTitle(R.string.deleting);
+                MenuInflater inflater = actionMode.getMenuInflater();
+                if (inflater != null) {
+                    inflater.inflate(R.menu.menu_point_list_selection, menu);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                if(menuItem.getItemId()==R.id.delete){
+                    long[] items=list.getCheckedItemIds();
+                    for(long item:items){
+                        try {
+                            getActivity().getContentResolver().acquireContentProviderClient(uri).delete(uri, DayPointsProviderMetadata.DayPointsTableMetadata._ID + "=?", new String[]{String.format("%d", item)});
+                        }
+                        catch (RemoteException ex){
+                            Log.e(TAG,"Error deleting.",ex);
+                        }
+                    }
+                    reload();
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+
+            }
+        });
     }
 
     @Override
@@ -59,7 +112,10 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.addPoint){
-            AddPointDialogFragment df=new AddPointDialogFragment(this);
+            AddPointDialogFragment df=new AddPointDialogFragment();
+            Bundle args=new Bundle();
+            args.putSerializable("refreshable",this);
+            df.setArguments(args);
             df.show(getFragmentManager(),"addDialog");
             return true;
         }
@@ -69,12 +125,11 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     private void reload() {
         try {
             SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
-            cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null, null, null, null);
-            adapter.changeCursor(cursor);
-            adapter.notifyDataSetChanged();
+            Cursor cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null, null, null, null);
+            adapter.swapCursor(cursor);
         }
         catch (Exception ex){
-            Log.e("PointTrackerFragment", "Error loading.", ex);
+            Log.e(TAG, "Error loading.", ex);
         }
     }
 

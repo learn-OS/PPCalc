@@ -27,13 +27,11 @@ public class AddPointDialogFragment extends DialogFragment {
     Uri uri= DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_URI;
     IRefreshable refreshable;
 
-    public AddPointDialogFragment(IRefreshable refreshable){
-        this.refreshable=refreshable;
-    }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        refreshable = (IRefreshable) args.getSerializable("refreshable");
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_add_point, null);
         builder.setView(view)

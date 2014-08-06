@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <drawable name="selected_item">#77ffffff</drawable>
+    <color name="blau_fosc">#222266</color>
 </resources>

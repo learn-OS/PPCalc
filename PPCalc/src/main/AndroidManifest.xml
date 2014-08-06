@@ -17,6 +17,10 @@
         <activity
             android:name=".PointsCalculatorActivity"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
@@ -38,10 +42,6 @@
         <activity
             android:name=".PointTrackerActivity"
             android:label="@string/title_activity_point_tracker" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 </manifest>

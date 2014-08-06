@@ -34,4 +34,9 @@
     <string name="helpMessage">Введите значения для 100 %s и введите часть.</string>
     <string name="pointsplus">PointsPlus</string>
     <string name="purchase">Убрать рекламу</string>
+    <string name="addPoints">Add points</string>
+    <string name="comment">Comment</string>
+    <string name="ok">Ok</string>
+    <string name="add_points">Add points</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -23,6 +23,8 @@ public class DayPointsProviderMetadata {
                 Uri.parse("content://" + AUTHORITY + "/daypoints");
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.ppcalc.daypoint";
         public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.ppcalc.daypoint";
+        public static final String CONTENT_DAYS_TYPE = "vnd.android.cursor.dir/vnd.ppcalc.day";
+        public static final String CONTENT_DAY_TYPE = "vnd.android.cursor.item/vnd.ppcalc.day";
         public static final String DEFAULT_SORT_ORDER = "modified DESC";
 
         public static final String DATE = "date";

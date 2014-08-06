@@ -32,4 +32,9 @@
     <string name="helpMessage">Geben Sie die Werte für 100 Gramm und geben Sie das Teil.</string>
     <string name="pointsplus">PointsPlus</string>
     <string name="purchase">Anzeigen entfernen</string>
+    <string name="addPoints">Add points</string>
+    <string name="comment">Comment</string>
+    <string name="ok">Ok</string>
+    <string name="add_points">Add points</string>
+    <string name="cancel">Cancel</string>
 </resources>

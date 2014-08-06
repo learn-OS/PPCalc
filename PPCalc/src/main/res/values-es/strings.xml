@@ -32,4 +32,9 @@
     <string name="helpMessage">Introduce los valores por 100 %s y introduce la porción.</string>
     <string name="pointsplus">PointsPlus</string>
     <string name="purchase">Eliminar anuncios</string>
+    <string name="addPoints">Add points</string>
+    <string name="comment">Comment</string>
+    <string name="ok">Ok</string>
+    <string name="add_points">Add points</string>
+    <string name="cancel">Cancel</string>
 </resources>

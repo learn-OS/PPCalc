@@ -36,10 +36,12 @@ public class DayPointsContentProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher;
     private static final int INCOMING_POINT_COLLECTION_URI_INDICATOR = 1;
     private static final int INCOMING_SINGLE_POINT_URI_INDICATOR = 2;
+    private static final int INCOMING_DAYS_COLLECTION_URI_INDICATOR = 3;
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"daypoints", INCOMING_POINT_COLLECTION_URI_INDICATOR);
         sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"daypoints/#",INCOMING_SINGLE_POINT_URI_INDICATOR);
+        sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"lastdays/#",INCOMING_DAYS_COLLECTION_URI_INDICATOR);
     }
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -103,6 +105,8 @@ public class DayPointsContentProvider extends ContentProvider {
                 return DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_TYPE;
             case INCOMING_SINGLE_POINT_URI_INDICATOR:
                 return DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_ITEM_TYPE;
+            case INCOMING_DAYS_COLLECTION_URI_INDICATOR:
+                return DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_DAYS_TYPE;
             default:
                 throw new IllegalArgumentException("Unknown uri "+uri);
         }
@@ -169,6 +173,10 @@ public class DayPointsContentProvider extends ContentProvider {
                 qb.setProjectionMap(sDayPointsProjectionMap);
                 qb.appendWhere(DayPointsProviderMetadata.DayPointsTableMetadata._ID + "="
                     + uri.getPathSegments().get(1));
+                break;
+            case INCOMING_DAYS_COLLECTION_URI_INDICATOR:
+                qb.setTables(DayPointsProviderMetadata.DayPointsTableMetadata.TABLE_NAME);
+                // TODO: Finish query.
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);

@@ -40,4 +40,9 @@
     <string name="action_settings">Settings</string>
 
     <string name="purchase">Remove ads</string>
+    <string name="addPoints">Add points</string>
+    <string name="comment">Comment</string>
+    <string name="ok">Ok</string>
+    <string name="add_points">Add points</string>
+    <string name="cancel">Cancel</string>
 </resources>

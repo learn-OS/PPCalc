@@ -35,4 +35,9 @@
     <string name="helpMessage">输入值100 %s 和输入的部分。</string>
     <string name="pointsplus">PointsPlus</string>
     <string name="purchase">删除广告</string>
+    <string name="addPoints">Add points</string>
+    <string name="comment">Comment</string>
+    <string name="ok">Ok</string>
+    <string name="add_points">Add points</string>
+    <string name="cancel">Cancel</string>
 </resources>

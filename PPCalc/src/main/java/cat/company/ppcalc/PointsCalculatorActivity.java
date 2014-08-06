@@ -53,7 +53,7 @@ public class PointsCalculatorActivity extends ActionBarActivity {
 
     final Context context;
 
-    private final static String TAG="MainActivity";
+    private final static String TAG="PointsCalculatorActivity";
     private ViewPager pager;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -130,13 +130,28 @@ public class PointsCalculatorActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
-        pager.setCurrentItem(page, true);
-        previousSelectedDrawer = page;
+        LoadPageFromPreferences();
 
         adView = (AdView) this.findViewById(R.id.adView);
 
         InitAds();
+    }
+
+    private void LoadPageFromPreferences() {
+        int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
+        pager.setCurrentItem(page+1, true);
+        previousSelectedDrawer = page;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LoadPageFromPreferences();
     }
 
     private void RetrievePurchase() {
@@ -193,6 +208,7 @@ public class PointsCalculatorActivity extends ActionBarActivity {
 
     private void InitDrawer() {
         drawerMenu = new Vector<String>();
+        drawerMenu.add(getString(R.string.title_activity_point_tracker));
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
             drawerMenu.add(mPagerAdapter.getPageTitle(i));
         }
@@ -252,11 +268,14 @@ public class PointsCalculatorActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 3) {
-                    startActivity(new Intent(context, PreferencesActivity.class));
-                    drawerMenu.add("Hola");
+                if(position==0){
+                    startActivity(new Intent(context,PointTrackerActivity.class));
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
-                } else if (position == 4) {
+                }
+                else if (position == 4) {
+                    startActivity(new Intent(context, PreferencesActivity.class));
+                    mDrawerList.setItemChecked(previousSelectedDrawer, true);
+                } else if (position == 5) {
                     if (mService != null) {
                         try {
                             Bundle buyIntentBundle = mService.getBuyIntent(3, getPackageName(),
@@ -274,7 +293,7 @@ public class PointsCalculatorActivity extends ActionBarActivity {
                     }
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 } else {
-                    pager.setCurrentItem(position);
+                    pager.setCurrentItem(position-1);
                     previousSelectedDrawer = position;
                 }
                 mDrawerLayout.closeDrawer(mDrawerList);
@@ -284,7 +303,7 @@ public class PointsCalculatorActivity extends ActionBarActivity {
             @Override
             public void onPageSelected(int position) {
                 actionBar.setTitle(((TitleProvider) fragments.get(position)).getTitle());
-                mDrawerList.setItemChecked(position, true);
+                mDrawerList.setItemChecked(position+1, true);
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
                 editor.putInt("defaultPage", position);
                 editor.apply();

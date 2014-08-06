@@ -1,15 +1,15 @@
 package cat.company.ppcalc;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import cat.company.ppcalc.fragments.PointTrackerFragment;
-import cat.company.ppcalc.preferences.PreferencesActivity;
 
 public class PointTrackerActivity extends ActionBarActivity {
+
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,26 +20,13 @@ public class PointTrackerActivity extends ActionBarActivity {
                     .add(R.id.container, new PointTrackerFragment())
                     .commit();
         }
-    }
 
+        actionBar = getSupportActionBar();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.point_tracker, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.activity_point_tracker,menu);
+        return super.onCreateOptionsMenu(menu);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(getBaseContext(), PreferencesActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }

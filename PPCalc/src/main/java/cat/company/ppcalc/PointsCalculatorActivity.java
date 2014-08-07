@@ -25,7 +25,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -84,13 +83,11 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         }
     }
 
-    private int previousSelectedDrawer = 0;
     private Boolean purchased;
     private AdView adView;
     private Vector<String> drawerMenu;
     private ActionBar actionBar;
     private List<Fragment> fragments;
-    private PagerAdapter mPagerAdapter;
 
     public PointsCalculatorActivity() {
         context = this;
@@ -120,13 +117,16 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
                 FlexiPointsCalculatorFragment.class.getName()));
         fragments.add(Fragment.instantiate(this,
                 PointsPlusCalculatorFragment.class.getName()));
-        mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
+        PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         pager = (ViewPager) findViewById(R.id.content);
 
         pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
+                actionBar.setTitle(((TitleProvider) fragments.get(position)).getTitle());
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+                editor.putInt("defaultPage", position);
+                editor.apply();
             }
         });
 
@@ -161,7 +161,6 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     private void LoadPageFromPreferences() {
         int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
         pager.setCurrentItem(page, true);
-        previousSelectedDrawer = page;
     }
 
     @Override
@@ -280,18 +279,16 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         else
             mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                     R.layout.drawer_list_item_old, drawerMenu));
-        mDrawerList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
                     startActivity(new Intent(context,PointTrackerActivity.class));
-                    mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 }
                 else if (position == 1) {
                     startActivity(new Intent(context, PreferencesActivity.class));
-                    mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 } else if (position == 2) {
                     if (mService != null) {
                         try {
@@ -308,21 +305,11 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
                             setPurchased(false);
                         }
                     }
-                    mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 }
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
-        pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setTitle(((TitleProvider) fragments.get(position)).getTitle());
-                mDrawerList.setItemChecked(position+1, true);
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-                editor.putInt("defaultPage", position);
-                editor.apply();
-            }
-        });
+
 
         mDrawerList.setItemChecked(0, true);
 

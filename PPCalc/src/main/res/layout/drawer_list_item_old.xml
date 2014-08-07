@@ -9,5 +9,4 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:textColor="#fff"
-    android:background="@drawable/drawer_selector"
     android:minHeight="48dip" />

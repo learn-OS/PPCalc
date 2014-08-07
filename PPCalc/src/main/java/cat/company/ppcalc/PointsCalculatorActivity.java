@@ -16,6 +16,8 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -48,7 +50,7 @@ import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
-public class PointsCalculatorActivity extends ActionBarActivity {
+public class PointsCalculatorActivity extends ActionBarActivity implements ActionBar.TabListener {
     private Unit.UnitEnum unit;
 
     final Context context;
@@ -121,13 +123,35 @@ public class PointsCalculatorActivity extends ActionBarActivity {
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         pager = (ViewPager) findViewById(R.id.content);
 
+        pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+        });
+
         pager.setAdapter(mPagerAdapter);
 
+        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+            // Create a tab with text corresponding to the page title defined by
+            // the adapter. Also specify this Activity object, which implements
+            // the TabListener interface, as the callback (listener) for when
+            // this tab is selected.
+            actionBar.addTab(
+                    actionBar.newTab()
+                            .setText(mPagerAdapter.getPageTitle(i))
+                            .setTabListener(this)
+            );
+        }
 
         actionBar.setTitle(((TitleProvider) fragments.get(0)).getTitle());
         InitDrawer();
 
         LoadPageFromPreferences();
+
+        PagerTabStrip ts = (PagerTabStrip) findViewById(R.id.titles);
+        ts.setTextColor(getResources().getColor(R.color.blau_fosc));
+        ts.setTabIndicatorColorResource(R.color.blau_fosc);
 
         adView = (AdView) this.findViewById(R.id.adView);
 
@@ -206,10 +230,6 @@ public class PointsCalculatorActivity extends ActionBarActivity {
     private void InitDrawer() {
         drawerMenu = new Vector<String>();
         drawerMenu.add(getString(R.string.title_activity_point_tracker));
-        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
-            drawerMenu.add(mPagerAdapter.getPageTitle(i));
-        }
-
         drawerMenu.add(getString(R.string.settings));
 
         if (mService != null && !purchased) {
@@ -269,10 +289,10 @@ public class PointsCalculatorActivity extends ActionBarActivity {
                     startActivity(new Intent(context,PointTrackerActivity.class));
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
                 }
-                else if (position == 4) {
+                else if (position == 1) {
                     startActivity(new Intent(context, PreferencesActivity.class));
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
-                } else if (position == 5) {
+                } else if (position == 2) {
                     if (mService != null) {
                         try {
                             Bundle buyIntentBundle = mService.getBuyIntent(3, getPackageName(),
@@ -289,9 +309,6 @@ public class PointsCalculatorActivity extends ActionBarActivity {
                         }
                     }
                     mDrawerList.setItemChecked(previousSelectedDrawer, true);
-                } else {
-                    pager.setCurrentItem(position-1);
-                    previousSelectedDrawer = position;
                 }
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
@@ -394,5 +411,20 @@ public class PointsCalculatorActivity extends ActionBarActivity {
         // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        pager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
     }
 }

@@ -127,9 +127,6 @@ public class PointsCalculatorActivity extends ActionBarActivity {
         actionBar.setTitle(((TitleProvider) fragments.get(0)).getTitle());
         InitDrawer();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
         LoadPageFromPreferences();
 
         adView = (AdView) this.findViewById(R.id.adView);
@@ -139,7 +136,7 @@ public class PointsCalculatorActivity extends ActionBarActivity {
 
     private void LoadPageFromPreferences() {
         int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
-        pager.setCurrentItem(page+1, true);
+        pager.setCurrentItem(page, true);
         previousSelectedDrawer = page;
     }
 
@@ -334,6 +331,9 @@ public class PointsCalculatorActivity extends ActionBarActivity {
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override

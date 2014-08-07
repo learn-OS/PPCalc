@@ -42,6 +42,9 @@
         <activity
             android:name=".PointTrackerActivity"
             android:label="@string/title_activity_point_tracker" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PointsCalculatorActivity"
+                />
         </activity>
     </application>
 </manifest>

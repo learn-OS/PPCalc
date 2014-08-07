@@ -13,6 +13,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class DayPointsContentProvider extends ContentProvider {
@@ -54,11 +56,11 @@ public class DayPointsContentProvider extends ContentProvider {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + DayPointsProviderMetadata.DayPointsTableMetadata.TABLE_NAME + " ("
                             + DayPointsProviderMetadata.DayPointsTableMetadata._ID + " INTEGER PRIMARY KEY,"
-                            + DayPointsProviderMetadata.DayPointsTableMetadata.DATE + " DATE,"
+                            + DayPointsProviderMetadata.DayPointsTableMetadata.DATE + " DATETIME DEFAULT (datetime('now','localtime')),"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.POINTS + " INTEGER,"
                             + DayPointsProviderMetadata.DayPointsTableMetadata.COMMENT+" NVARCHAR(100),"
-                            + DayPointsProviderMetadata.DayPointsTableMetadata.CREATED_DATE + " DATETIME,"
-                            + DayPointsProviderMetadata.DayPointsTableMetadata.MODIFIED_DATE + " DATETIME)"
+                            + DayPointsProviderMetadata.DayPointsTableMetadata.CREATED_DATE + " DATETIME DEFAULT (datetime('now','localtime')),"
+                            + DayPointsProviderMetadata.DayPointsTableMetadata.MODIFIED_DATE + " DATETIME DEFAULT (datetime('now','localtime')))"
             );
         }
 
@@ -125,19 +127,16 @@ public class DayPointsContentProvider extends ContentProvider {
         } else {
             values = new ContentValues();
         }
-        Long now = System.currentTimeMillis();
 
-        if (!values.containsKey(DayPointsProviderMetadata.DayPointsTableMetadata.CREATED_DATE)) {
-            values.put(DayPointsProviderMetadata.DayPointsTableMetadata.CREATED_DATE, now);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        if (!values.containsKey(DayPointsProviderMetadata.DayPointsTableMetadata.DATE)) {
+            values.put(DayPointsProviderMetadata.DayPointsTableMetadata.DATE,sdf.format(new Date()));
         }
-        if (!values.containsKey(DayPointsProviderMetadata.DayPointsTableMetadata.MODIFIED_DATE)) {
-            values.put(DayPointsProviderMetadata.DayPointsTableMetadata.MODIFIED_DATE, now); }
+
         if (!values.containsKey(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS)) {
             throw new SQLException(
                     "Failed to insert row because points are needed " + uri);
-        }
-        if (!values.containsKey(DayPointsProviderMetadata.DayPointsTableMetadata.DATE)) {
-            values.put(DayPointsProviderMetadata.DayPointsTableMetadata.DATE, now);
         }
 
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();

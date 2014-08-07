@@ -9,6 +9,7 @@ import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +36,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     public static final String TAG = "PointTrackerFragment";
     private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_URI;
     private DayPointsCursorAdapter adapter;
+    private ListView list;
 
     public PointTrackerFragment(){
         setHasOptionsMenu(true);
@@ -44,15 +46,39 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_point_tracker, container, false);
-        ListView list= (ListView) view.findViewById(R.id.pointsList);
+        list = (ListView) view.findViewById(R.id.pointsList);
         adapter=new DayPointsCursorAdapter(getActivity(),null,0);
         reload();
         list.setAdapter(adapter);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB)
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
           AddMultiselection(list);
+        }
+        else {
+            list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            list.setOnCreateContextMenuListener(this);
+        }
         return view;
     }
 
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.delete) {
+            try {
+                getActivity().getContentResolver().acquireContentProviderClient(uri).delete(uri, DayPointsProviderMetadata.DayPointsTableMetadata._ID + "=?", new String[]{String.format("%d", list.getSelectedItemId())});
+            } catch (RemoteException ex) {
+                Log.e(TAG, "Error deleting.", ex);
+            }
+            reload();
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_point_list_selection,menu);
+    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void AddMultiselection(final ListView list) {
@@ -125,7 +151,8 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     private void reload() {
         try {
             SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
-            Cursor cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null, null, null, null);
+            Cursor cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null,
+                    "DATE("+DayPointsProviderMetadata.DayPointsTableMetadata.DATE+")=DATE('now')", null, null);
             adapter.swapCursor(cursor);
         }
         catch (Exception ex){

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,7 +39,14 @@ public class DayPointsCursorAdapter extends CursorAdapter {
         TextView commentTv= (TextView) view.findViewById(R.id.comment);
         TextView pointTv= (TextView) view.findViewById(R.id.points);
         SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
-        dateTv.setText(sdf.format(new Date(cursor.getLong(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.DATE)))));
+        SimpleDateFormat sdfIn=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = sdfIn.parse(cursor.getString(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.DATE)));
+            dateTv.setText(sdf.format(date));
+        }
+        catch (ParseException ex){
+            dateTv.setVisibility(View.INVISIBLE);
+        }
         commentTv.setText(cursor.getString(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.COMMENT)));
         pointTv.setText(String.format("%d",cursor.getInt(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS))));
     }

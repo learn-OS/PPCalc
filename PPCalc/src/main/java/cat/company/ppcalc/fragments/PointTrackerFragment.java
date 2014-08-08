@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ActionMode;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -41,23 +43,22 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     private int total;
     private View view;
 
-    public PointTrackerFragment(){
+    public PointTrackerFragment() {
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_point_tracker, container, false);
         list = (ListView) view.findViewById(R.id.pointsList);
-        adapter=new DayPointsCursorAdapter(getActivity(),null,0);
+        adapter = new DayPointsCursorAdapter(getActivity(), null, 0);
 
         reload();
         list.setAdapter(adapter);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-          AddMultiselection(list);
-        }
-        else {
+            AddMultiselection(list);
+        } else {
             list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             list.setOnCreateContextMenuListener(this);
         }
@@ -67,7 +68,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.delete) {
+        if (item.getItemId() == R.id.delete) {
             try {
                 getActivity().getContentResolver().acquireContentProviderClient(uri).delete(uri, DayPointsProviderMetadata.DayPointsTableMetadata._ID + "=?", new String[]{String.format("%d", list.getSelectedItemId())});
             } catch (RemoteException ex) {
@@ -81,7 +82,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_point_list_selection,menu);
+        getActivity().getMenuInflater().inflate(R.menu.menu_point_list_selection, menu);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -90,7 +91,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
         list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
-                actionMode.setSubtitle(String.format("%d selected elements.",list.getCheckedItemCount()));
+                actionMode.setSubtitle(String.format("%d selected elements.", list.getCheckedItemCount()));
             }
 
             @Override
@@ -110,14 +111,13 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
 
             @Override
             public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                if(menuItem.getItemId()==R.id.delete){
-                    long[] items=list.getCheckedItemIds();
-                    for(long item:items){
+                if (menuItem.getItemId() == R.id.delete) {
+                    long[] items = list.getCheckedItemIds();
+                    for (long item : items) {
                         try {
                             getActivity().getContentResolver().acquireContentProviderClient(uri).delete(uri, DayPointsProviderMetadata.DayPointsTableMetadata._ID + "=?", new String[]{String.format("%d", item)});
-                        }
-                        catch (RemoteException ex){
-                            Log.e(TAG,"Error deleting.",ex);
+                        } catch (RemoteException ex) {
+                            Log.e(TAG, "Error deleting.", ex);
                         }
                     }
                     reload();
@@ -136,17 +136,17 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.point_tracker, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.addPoint){
-            AddPointDialogFragment df=new AddPointDialogFragment();
-            Bundle args=new Bundle();
-            args.putSerializable("refreshable",this);
+        if (item.getItemId() == R.id.addPoint) {
+            AddPointDialogFragment df = new AddPointDialogFragment();
+            Bundle args = new Bundle();
+            args.putSerializable("refreshable", this);
             df.setArguments(args);
-            df.show(getFragmentManager(),"addDialog");
+            df.show(getFragmentManager(), "addDialog");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -154,24 +154,31 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
 
     private void reload() {
         try {
-            SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Cursor cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null,
-                    "DATE("+DayPointsProviderMetadata.DayPointsTableMetadata.DATE+")=DATE('now','localtime')", null, null);
+                    "DATE(" + DayPointsProviderMetadata.DayPointsTableMetadata.DATE + ")=DATE('now','localtime')", null, null);
             adapter.swapCursor(cursor);
-            total=CalculateTotal(cursor);
-            TextView tvTotal= (TextView) view.findViewById(R.id.totalPoints);
-            tvTotal.setText(String.format("%d points.",total));
-        }
-        catch (Exception ex){
+            total = CalculateTotal(cursor);
+            TextView tvTotal = (TextView) view.findViewById(R.id.totalPoints);
+            tvTotal.setText(String.format("%d points.", total));
+            Integer daily_allowance = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("daily_allowance", 27);
+            ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
+            progressBar.setMax(daily_allowance);
+            if(total>=daily_allowance)
+                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.red_progressbar));
+            else
+                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.green_progressbar));
+            progressBar.setProgress(Math.min(daily_allowance, total));
+        } catch (Exception ex) {
             Log.e(TAG, "Error loading.", ex);
         }
     }
 
     private int CalculateTotal(Cursor cursor) {
-        int total=0;
-        if(cursor.moveToFirst()){
-            total+=cursor.getInt(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS));
-            while(cursor.moveToNext()){
+        int total = 0;
+        if (cursor.moveToFirst()) {
+            total += cursor.getInt(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS));
+            while (cursor.moveToNext()) {
                 total += cursor.getInt(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS));
             }
         }

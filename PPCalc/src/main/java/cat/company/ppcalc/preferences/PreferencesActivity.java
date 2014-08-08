@@ -15,6 +15,7 @@ import cat.company.ppcalc.R;
 
 /**
  * Created by carles on 18/03/14.
+ * Preference activity.
  */
 public class PreferencesActivity extends PreferenceActivity {
 
@@ -23,6 +24,7 @@ public class PreferencesActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             addPreferencesFromResource(R.xml.preference_main);
+            addPreferencesFromResource(R.xml.preference_tracker);
         }
     }
 

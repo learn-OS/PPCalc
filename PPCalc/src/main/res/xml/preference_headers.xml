@@ -5,4 +5,8 @@
         android:fragment="cat.company.ppcalc.preferences.MainPreferenceFragment"
         android:title="@string/main"
         android:summary="@string/main_summary" />
+    <header
+        android:fragment="cat.company.ppcalc.preferences.TrackerPreferenceFragment"
+        android:title="@string/tracker"
+        android:summary="@string/tracker_preferences_summary" />
 </preference-headers>

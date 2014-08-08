@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="point_allowance"
+        android:inputType="number"
+        android:title="@string/daily_allowance"
+        android:summary="@string/daily_allowance_summary"
+        android:defaultValue="27" />
+</PreferenceScreen>

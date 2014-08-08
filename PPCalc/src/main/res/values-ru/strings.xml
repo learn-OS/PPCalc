@@ -43,4 +43,8 @@
     <string name="deleting">Deleting...</string>
     <string name="calculator">Calculator</string>
     <string name="error_empty_points">Points can not be empty.</string>
+    <string name="daily_allowance">Daily allowance</string>
+    <string name="daily_allowance_summary">Input your daily points allowance</string>
+    <string name="tracker">Point tracker</string>
+    <string name="tracker_preferences_summary">PointTracker preferences.</string>
 </resources>

@@ -8,13 +8,20 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/background_dark">
+        android:background="@android:color/background_dark"
+        android:orientation="vertical">
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_margin="5px"
             android:id="@+id/totalPoints"
             android:textColor="@android:color/white" />
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="5dp"
+            android:progressDrawable="@drawable/green_progressbar"/>
     </LinearLayout>
 
     <ListView

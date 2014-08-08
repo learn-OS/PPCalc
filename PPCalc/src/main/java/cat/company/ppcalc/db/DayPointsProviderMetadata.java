@@ -21,6 +21,8 @@ public class DayPointsProviderMetadata {
         //uri and MIME type definitions
         public static final Uri CONTENT_URI =
                 Uri.parse("content://" + AUTHORITY + "/daypoints");
+        public static final Uri SUM_URI =
+                Uri.parse("content://" + AUTHORITY + "/daypoints/sum");
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.ppcalc.daypoint";
         public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.ppcalc.daypoint";
         public static final String CONTENT_DAYS_TYPE = "vnd.android.cursor.dir/vnd.ppcalc.day";

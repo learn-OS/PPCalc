@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 
@@ -37,6 +38,8 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_URI;
     private DayPointsCursorAdapter adapter;
     private ListView list;
+    private int total;
+    private View view;
 
     public PointTrackerFragment(){
         setHasOptionsMenu(true);
@@ -45,9 +48,10 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_point_tracker, container, false);
+        view = inflater.inflate(R.layout.fragment_point_tracker, container, false);
         list = (ListView) view.findViewById(R.id.pointsList);
         adapter=new DayPointsCursorAdapter(getActivity(),null,0);
+
         reload();
         list.setAdapter(adapter);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
@@ -152,12 +156,26 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
         try {
             SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
             Cursor cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null,
-                    "DATE("+DayPointsProviderMetadata.DayPointsTableMetadata.DATE+")=DATE('now')", null, null);
+                    "DATE("+DayPointsProviderMetadata.DayPointsTableMetadata.DATE+")=DATE('now','localtime')", null, null);
             adapter.swapCursor(cursor);
+            total=CalculateTotal(cursor);
+            TextView tvTotal= (TextView) view.findViewById(R.id.totalPoints);
+            tvTotal.setText(String.format("%d points.",total));
         }
         catch (Exception ex){
             Log.e(TAG, "Error loading.", ex);
         }
+    }
+
+    private int CalculateTotal(Cursor cursor) {
+        int total=0;
+        if(cursor.moveToFirst()){
+            total+=cursor.getInt(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS));
+            while(cursor.moveToNext()){
+                total += cursor.getInt(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS));
+            }
+        }
+        return total;
     }
 
     @Override

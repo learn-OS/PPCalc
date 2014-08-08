@@ -36,11 +36,8 @@
     <string name="helpMessage">Enter the values for 100 %s and enter the portion.</string>
     <string name="pointsplus">PointsPlus</string>
     <string name="title_activity_point_tracker">PointTracker</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
     <string name="purchase">Remove ads</string>
-    <string name="addPoints">Add points</string>
     <string name="comment">Comment</string>
     <string name="ok">Ok</string>
     <string name="add_points">Add points</string>

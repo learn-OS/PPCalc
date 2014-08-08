@@ -40,7 +40,6 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_URI;
     private DayPointsCursorAdapter adapter;
     private ListView list;
-    private int total;
     private View view;
 
     public PointTrackerFragment() {
@@ -158,13 +157,13 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
             Cursor cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null,
                     "DATE(" + DayPointsProviderMetadata.DayPointsTableMetadata.DATE + ")=DATE('now','localtime')", null, null);
             adapter.swapCursor(cursor);
-            total = CalculateTotal(cursor);
+            int total = CalculateTotal(cursor);
             TextView tvTotal = (TextView) view.findViewById(R.id.totalPoints);
-            tvTotal.setText(String.format("%d points.", total));
+            tvTotal.setText(getResources().getQuantityString(R.plurals.num_points, total, total));
             Integer daily_allowance = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("daily_allowance", 27);
             ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
             progressBar.setMax(daily_allowance);
-            if(total>=daily_allowance)
+            if(total >=daily_allowance)
                 progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.red_progressbar));
             else
                 progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.green_progressbar));

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="cat.company.ppcalc.PointTrackerActivity" >
     <item android:id="@+id/addPoint"
-        android:title="@string/addPoints"
+        android:title="@string/add_points"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_add">
     </item>

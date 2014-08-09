@@ -64,6 +64,11 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reload();
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -159,8 +164,8 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
             adapter.swapCursor(cursor);
             int total = CalculateTotal(cursor);
             TextView tvTotal = (TextView) view.findViewById(R.id.totalPoints);
-            tvTotal.setText(getResources().getQuantityString(R.plurals.num_points, total, total));
-            Integer daily_allowance = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("daily_allowance", 27);
+            Integer daily_allowance = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("point_allowance", "27"));
+            tvTotal.setText(getResources().getQuantityString(R.plurals.points_of, total, total, daily_allowance));
             ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
             progressBar.setMax(daily_allowance);
             if(total >=daily_allowance)

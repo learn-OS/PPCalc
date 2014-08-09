@@ -48,4 +48,11 @@
     <string name="daily_allowance_summary">Введите Ваше пособие точки ежедневного.</string>
     <string name="tracker">Точка трекер</string>
     <string name="tracker_preferences_summary">PointTracker предпочтения.</string>
+    <plurals name="points_of">
+        <item quantity="zero">%1$d точки из %2$d.</item>
+        <item quantity="one">%1$d точки из %2$d.</item>
+        <item quantity="other">%1$d очки из %2$d.</item>
+        <item quantity="few">мало</item>
+        <item quantity="many">многие</item>
+    </plurals>
 </resources>

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,7 +40,6 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     public static final String TAG = "PointTrackerFragment";
     private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_URI;
     private DayPointsCursorAdapter adapter;
-    private ListView list;
     private View view;
 
     public PointTrackerFragment() {
@@ -50,7 +50,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_point_tracker, container, false);
-        list = (ListView) view.findViewById(R.id.pointsList);
+        ListView list = (ListView) view.findViewById(R.id.pointsList);
         adapter = new DayPointsCursorAdapter(getActivity(), null, 0);
 
         reload();
@@ -58,6 +58,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
             AddMultiselection(list);
         } else {
+            registerForContextMenu(list);
             list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             list.setOnCreateContextMenuListener(this);
         }
@@ -74,7 +75,9 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.delete) {
             try {
-                getActivity().getContentResolver().acquireContentProviderClient(uri).delete(uri, DayPointsProviderMetadata.DayPointsTableMetadata._ID + "=?", new String[]{String.format("%d", list.getSelectedItemId())});
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+                getActivity().getContentResolver().acquireContentProviderClient(uri).delete(uri, DayPointsProviderMetadata.DayPointsTableMetadata._ID + "=?", new String[]{String.format("%d", info.id)});
             } catch (RemoteException ex) {
                 Log.e(TAG, "Error deleting.", ex);
             }
@@ -86,6 +89,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
         getActivity().getMenuInflater().inflate(R.menu.menu_point_list_selection, menu);
     }
 

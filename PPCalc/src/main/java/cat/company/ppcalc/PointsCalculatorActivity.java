@@ -252,8 +252,9 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
                                 for (String thisResponse : responseList) {
                                     JSONObject object = new JSONObject(thisResponse);
                                     String sku = object.getString("productId");
-                                    String price = object.getString("price");
-                                    if (sku.equals("ppcalcpro")) proPrice = price;
+                                    if (sku.equals("ppcalcpro")){
+                                        proPrice = object.getString("price");
+                                    }
                                 }
                             }
                         }

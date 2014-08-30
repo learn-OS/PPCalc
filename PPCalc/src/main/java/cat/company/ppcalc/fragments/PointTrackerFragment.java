@@ -23,8 +23,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.text.SimpleDateFormat;
 
+import cat.company.ppcalc.Application;
 import cat.company.ppcalc.R;
 import cat.company.ppcalc.adapters.DayPointsCursorAdapter;
 import cat.company.ppcalc.db.DayPointsProviderMetadata;
@@ -78,6 +82,14 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
                 getActivity().getContentResolver().acquireContentProviderClient(uri).delete(uri, DayPointsProviderMetadata.DayPointsTableMetadata._ID + "=?", new String[]{String.format("%d", info.id)});
+                // Get tracker.
+                Tracker t = ((Application) getActivity().getApplication()).getTracker();
+                // Build and send an Event.
+                t.send(new HitBuilders.EventBuilder()
+                        .setCategory("Tracker")
+                        .setAction("delete")
+                        .setLabel("click")
+                        .build());
             } catch (RemoteException ex) {
                 Log.e(TAG, "Error deleting.", ex);
             }
@@ -129,6 +141,14 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
                         }
                     }
                     reload();
+                    // Get tracker.
+                    Tracker t = ((Application) getActivity().getApplication()).getTracker();
+                    // Build and send an Event.
+                    t.send(new HitBuilders.EventBuilder()
+                            .setCategory("Tracker")
+                            .setAction("delete")
+                            .setLabel("click")
+                            .build());
                     return true;
                 }
                 return false;
@@ -155,6 +175,14 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
             args.putSerializable("refreshable", this);
             df.setArguments(args);
             df.show(getFragmentManager(), "addDialog");
+            // Get tracker.
+            Tracker t = ((Application) getActivity().getApplication()).getTracker();
+            // Build and send an Event.
+            t.send(new HitBuilders.EventBuilder()
+                    .setCategory("Tracker")
+                    .setAction("add")
+                    .setLabel("click")
+                    .build());
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -196,5 +224,18 @@ public class PointTrackerFragment extends Fragment implements IRefreshable {
     @Override
     public void Refresh() {
         reload();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Tracker t = ((Application) getActivity().getApplication()).getTracker();
+
+        // Set screen name.
+        // Where path is a String representing the screen name.
+        t.setScreenName("Tracker");
+
+        // Send a screen view.
+        t.send(new HitBuilders.AppViewBuilder().build());
     }
 }

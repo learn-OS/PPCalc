@@ -91,7 +91,7 @@ public class FlexiPointsCalculatorFragment extends Fragment implements TitleProv
         });
         Editable fatText = tFat.getText();
         Editable calText = tCal.getText();
-        Editable portionText=tCal.getText();
+        Editable portionText=tPortion.getText();
         SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
         String unit=sharedPreferences.getString("selected_unit", "grams");
         int points= FlexiPointsCalculator.CreateInstance()

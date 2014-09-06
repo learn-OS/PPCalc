@@ -54,7 +54,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
 
     final Context context;
 
-    private final static String TAG="PointsCalculatorActivity";
+    private final static String TAG = "PointsCalculatorActivity";
     private ViewPager pager;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -75,8 +75,8 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         }
     };
 
-    private void setPurchased(boolean purchased){
-        if(this.purchased!=purchased) {
+    private void setPurchased(boolean purchased) {
+        if (this.purchased != purchased) {
             this.purchased = purchased;
             InitAds();
             InitDrawer();
@@ -175,7 +175,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     }
 
     private void RetrievePurchase() {
-        AsyncTask<String,Void,Boolean> task=new AsyncTask<String, Void, Boolean>() {
+        AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(String... params) {
                 try {
@@ -232,48 +232,9 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         drawerMenu.add(getString(R.string.settings));
 
         if (mService != null && !purchased) {
-            ArrayList<String> skuList = new ArrayList<String>();
-            skuList.add("ppcalcpro");
-            Bundle querySkus = new Bundle();
-            querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
-
-                AsyncTask<Bundle,Void,String> getDetailsTask=new AsyncTask<Bundle, Void, String>() {
-                    @Override
-                    protected String doInBackground(Bundle... bundles) {
-                        String proPrice = "";
-                        try {
-                            Bundle skuDetails = mService.getSkuDetails(3,
-                                    getPackageName(), "inapp", bundles[0]);
-                            int response = skuDetails.getInt("RESPONSE_CODE");
-                            if (response == 0) {
-                                ArrayList<String> responseList
-                                        = skuDetails.getStringArrayList("DETAILS_LIST");
-
-                                for (String thisResponse : responseList) {
-                                    JSONObject object = new JSONObject(thisResponse);
-                                    String sku = object.getString("productId");
-                                    if (sku.equals("ppcalcpro")){
-                                        proPrice = object.getString("price");
-                                    }
-                                }
-                            }
-                        }
-                        catch (RemoteException ex){
-                            Log.e(TAG,"Error retrieving price.",ex);
-                        }
-                        catch (JSONException ex){
-                            Log.e(TAG,"Error parsing JSON.",ex);
-                        }
-                        return proPrice;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String s) {
-                        drawerMenu.add(getString(R.string.purchase) + " " + s);
-                    }
-                };
-            getDetailsTask.execute(querySkus);
+            drawerMenu.add(getString(R.string.purchase));
         }
+
         if (Build.VERSION.SDK_INT >= 11)
             mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                     R.layout.drawer_list_item, drawerMenu));
@@ -285,10 +246,9 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    startActivity(new Intent(context,PointTrackerActivity.class));
-                }
-                else if (position == 1) {
+                if (position == 0) {
+                    startActivity(new Intent(context, PointTrackerActivity.class));
+                } else if (position == 1) {
                     startActivity(new Intent(context, PreferencesActivity.class));
                 } else if (position == 2) {
                     if (mService != null) {
@@ -297,12 +257,12 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
                                     "ppcalcpro", "inapp", "");
                             PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
                             startIntentSenderForResult(pendingIntent.getIntentSender(),
-                                    1001, new Intent(), 0, 0,0);
+                                    1001, new Intent(), 0, 0, 0);
                         } catch (RemoteException ex) {
-                            Log.e(TAG,"Error purchasing.",ex);
+                            Log.e(TAG, "Error purchasing.", ex);
                             setPurchased(false);
                         } catch (IntentSender.SendIntentException ex) {
-                            Log.e(TAG,"Error starting purchase.",ex);
+                            Log.e(TAG, "Error starting purchase.", ex);
                             setPurchased(false);
                         }
                     }

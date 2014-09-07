@@ -5,6 +5,7 @@ import com.google.android.gms.analytics.Tracker;
 
 /**
  * Created by company on 28/03/2014.
+ * Main application class.
  */
 public class Application extends android.app.Application {
     Tracker tracker;

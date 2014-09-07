@@ -12,15 +12,13 @@ import cat.company.ppcalc.fragments.PointTrackerFragment;
 
 public class PointTrackerActivity extends ActionBarActivity {
 
-    private ListView mDrawerList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_tracker);
         ActionBar actionBar = getSupportActionBar();
 
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

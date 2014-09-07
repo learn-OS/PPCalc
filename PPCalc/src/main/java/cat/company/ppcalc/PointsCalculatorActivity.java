@@ -76,16 +76,13 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     };
 
     private void setPurchased(boolean purchased) {
-        if (this.purchased != purchased) {
-            this.purchased = purchased;
-            InitAds();
-            InitDrawer();
-        }
+        this.purchased = purchased;
+        InitAds();
+        InitDrawer();
     }
 
     private Boolean purchased;
     private AdView adView;
-    private Vector<String> drawerMenu;
     private ActionBar actionBar;
     private List<Fragment> fragments;
 
@@ -227,20 +224,25 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     }
 
     private void InitDrawer() {
-        drawerMenu = new Vector<String>();
+        Vector<String> drawerMenu = new Vector<String>();
         drawerMenu.add(getString(R.string.title_activity_point_tracker));
         drawerMenu.add(getString(R.string.settings));
 
-        if (mService != null && !purchased) {
+        if (mService != null && !purchased)
             drawerMenu.add(getString(R.string.purchase));
-        }
 
-        if (Build.VERSION.SDK_INT >= 11)
-            mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                    R.layout.drawer_list_item, drawerMenu));
-        else
-            mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                    R.layout.drawer_list_item_old, drawerMenu));
+        if (Build.VERSION.SDK_INT >= 11) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    R.layout.drawer_list_item, drawerMenu);
+            mDrawerList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+        else {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    R.layout.drawer_list_item_old, drawerMenu);
+            mDrawerList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -46,6 +46,7 @@
     <string name="daily_allowance_summary">Introduzca su asignación de puntos diaria.</string>
     <string name="tracker">Point tracker</string>
     <string name="tracker_preferences_summary">Preferencias PointTracker.</string>
+    <string name="date_picker_message">Select the date you want to view:</string>
     <plurals name="points_of">
         <item quantity="zero">%1$d puntos de %2$d.</item>
         <item quantity="one">%1$d punto de %2$d.</item>

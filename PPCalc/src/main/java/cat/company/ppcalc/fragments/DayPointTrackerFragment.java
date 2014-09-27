@@ -1,6 +1,7 @@
 package cat.company.ppcalc.fragments;
 
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,12 +29,14 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import cat.company.ppcalc.Application;
 import cat.company.ppcalc.R;
 import cat.company.ppcalc.adapters.DayPointsCursorAdapter;
 import cat.company.ppcalc.db.DayPointsProviderMetadata;
-import cat.company.ppcalc.fragments.dialogs.AddPointDialogFragment;
 import cat.company.ppcalc.interfaces.IRefreshable;
 import cat.company.ppcalc.util.TitleProvider;
 
@@ -40,23 +44,46 @@ import cat.company.ppcalc.util.TitleProvider;
  * Fragment for the point tracker day view.
  */
 
-public class PointTrackerFragment extends Fragment implements IRefreshable,TitleProvider {
+public class DayPointTrackerFragment extends Fragment implements IRefreshable,TitleProvider {
 
-    public static final String TAG = "PointTrackerFragment";
+    public static final String TAG = "DayPointTrackerFragment";
     private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.CONTENT_URI;
     private DayPointsCursorAdapter adapter;
     private View view;
+    private Date date;
+    private GregorianCalendar gregorianCalendar;
 
-    public PointTrackerFragment() {
+    public DayPointTrackerFragment() {
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_point_tracker, container, false);
+        gregorianCalendar = new GregorianCalendar();
+        date= gregorianCalendar.getTime();
+
+        view = inflater.inflate(R.layout.fragment_day_point_tracker, container, false);
         ListView list = (ListView) view.findViewById(R.id.pointsList);
         adapter = new DayPointsCursorAdapter(getActivity(), null, 0);
+
+        TextView tvDate= (TextView) view.findViewById(R.id.dateEdit);
+        tvDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DatePickerDialog dpd=new DatePickerDialog(getActivity(),new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
+                        gregorianCalendar=new GregorianCalendar(i,i2,i3);
+                        date=gregorianCalendar.getTime();
+                        reload();
+                    }
+                }, gregorianCalendar.get(Calendar.YEAR),gregorianCalendar.get(Calendar.MONTH),gregorianCalendar.get(Calendar.DAY_OF_MONTH));
+                dpd.setMessage(getActivity().getString(R.string.date_picker_message));
+                dpd.show();
+            }
+        });
 
         reload();
         list.setAdapter(adapter);
@@ -162,38 +189,12 @@ public class PointTrackerFragment extends Fragment implements IRefreshable,Title
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.point_tracker, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.addPoint) {
-            AddPointDialogFragment df = new AddPointDialogFragment();
-            Bundle args = new Bundle();
-            args.putSerializable("refreshable", (IRefreshable)getActivity());
-            df.setArguments(args);
-            df.show(getFragmentManager(), "addDialog");
-            // Get tracker.
-            Tracker t = ((Application) getActivity().getApplication()).getTracker();
-            // Build and send an Event.
-            t.send(new HitBuilders.EventBuilder()
-                    .setCategory("Tracker")
-                    .setAction("add")
-                    .setLabel("click")
-                    .build());
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void reload() {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
             Cursor cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null,
-                    "DATE(" + DayPointsProviderMetadata.DayPointsTableMetadata.DATE + ")=DATE('now','localtime')", null, null);
+                    "DATE(" + DayPointsProviderMetadata.DayPointsTableMetadata.DATE + ")=DATE('"+sdf2.format(date)+"')", null, null);
             adapter.swapCursor(cursor);
             int total = CalculateTotal(cursor);
             TextView tvTotal = (TextView) view.findViewById(R.id.totalPoints);
@@ -201,6 +202,8 @@ public class PointTrackerFragment extends Fragment implements IRefreshable,Title
             tvTotal.setText(getResources().getQuantityString(R.plurals.points_of, total, total, daily_allowance));
             ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
             progressBar.setMax(daily_allowance);
+            TextView tvDate= (TextView) view.findViewById(R.id.dateEdit);
+            tvDate.setText(sdf.format(this.date));
             if(total >=daily_allowance)
                 progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.red_progressbar));
             else
@@ -234,7 +237,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable,Title
 
         // Set screen name.
         // Where path is a String representing the screen name.
-        t.setScreenName("Tracker");
+        t.setScreenName("DayTracker");
 
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
@@ -242,6 +245,6 @@ public class PointTrackerFragment extends Fragment implements IRefreshable,Title
 
     @Override
     public String getTitle() {
-        return "Tracker";
+        return "Viewer";
     }
 }

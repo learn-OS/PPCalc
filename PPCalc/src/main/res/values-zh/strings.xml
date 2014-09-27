@@ -48,6 +48,7 @@
     <string name="daily_allowance_summary">输入您的每日点金</string>
     <string name="tracker">点跟踪器</string>
     <string name="tracker_preferences_summary">PointTracker偏好。</string>
+    <string name="date_picker_message">Select the date you want to view:</string>
     <plurals name="points_of">
         <item quantity="zero">%1$d点%2$d。</item>
         <item quantity="one">%1$d点%2$d。</item>

@@ -50,6 +50,7 @@
     <string name="daily_allowance_summary">Input your daily points allowance</string>
     <string name="tracker">Point tracker</string>
     <string name="tracker_preferences_summary">PointTracker preferences.</string>
+    <string name="date_picker_message">Select the date you want to view:</string>
     <plurals name="points_of">
         <item quantity="zero">%1$d points of %2$d.</item>
         <item quantity="one">%1$d point of %2$d.</item>

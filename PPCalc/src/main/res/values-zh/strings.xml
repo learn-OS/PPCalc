@@ -49,7 +49,7 @@
     <string name="tracker">点跟踪器</string>
     <string name="tracker_preferences_summary">PointTracker偏好。</string>
     <string name="date_picker_message">选择您想要查看的日期：</string>
-    <string name="review">评论</string>
+    <string name="review">历史</string>
     <plurals name="points_of">
         <item quantity="zero">%1$d点%2$d。</item>
         <item quantity="one">%1$d点%2$d。</item>

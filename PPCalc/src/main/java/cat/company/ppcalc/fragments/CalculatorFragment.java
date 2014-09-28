@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 
+import cat.company.ppcalc.PagerProvider;
+import cat.company.ppcalc.PointsCalculatorActivity;
 import cat.company.ppcalc.R;
 import cat.company.ppcalc.util.TitleProvider;
 
@@ -24,6 +27,8 @@ import cat.company.ppcalc.util.TitleProvider;
  */
 public class CalculatorFragment extends Fragment implements PreferenceChangeListener,TitleProvider {
 
+
+    private Fragment fragment;
 
     public CalculatorFragment() {
         // Required empty public constructor
@@ -52,20 +57,25 @@ public class CalculatorFragment extends Fragment implements PreferenceChangeList
     }
 
     private void changeCalculator() {
-        String page = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("defaultPage", "propoints");
-        Fragment fragment;
+        String page = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("default_page", "propoints");
         if(page.equals("propoints"))
-            fragment=new ProPointsCalculatorFragment();
+            fragment =new ProPointsCalculatorFragment();
         else if(page.equals("flexipoints"))
-            fragment=new FlexiPointsCalculatorFragment();
+            fragment =new FlexiPointsCalculatorFragment();
         else if(page.equals("pointsplus"))
-            fragment=new PointsPlusCalculatorFragment();
+            fragment =new PointsPlusCalculatorFragment();
         else
-            fragment=new ProPointsCalculatorFragment();
+            fragment =new ProPointsCalculatorFragment();
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.calculator_container,fragment);
+        transaction.replace(R.id.calculator_container, fragment);
         transaction.commit();
+        if(getActivity() instanceof PagerProvider) {
+            PagerProvider activity = (PagerProvider) getActivity();
+            activity.getPagerAdapter().notifyDataSetChanged();
+            TitleProvider currentFragment = (TitleProvider)((PointsCalculatorActivity) activity).getCurrentFragment();
+            ((ActionBarActivity)activity).getSupportActionBar().setTitle(currentFragment.getTitle());
+        }
     }
 
     @Override
@@ -80,6 +90,8 @@ public class CalculatorFragment extends Fragment implements PreferenceChangeList
 
     @Override
     public String getTitle() {
+        if(fragment instanceof TitleProvider)
+            return ((TitleProvider)fragment).getTitle();
         return "Calculator";
     }
 }

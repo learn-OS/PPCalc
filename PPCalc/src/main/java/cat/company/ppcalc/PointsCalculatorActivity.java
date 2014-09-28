@@ -47,7 +47,7 @@ import cat.company.ppcalc.interfaces.IRefreshable;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
-public class PointsCalculatorActivity extends ActionBarActivity implements ActionBar.TabListener,IRefreshable {
+public class PointsCalculatorActivity extends ActionBarActivity implements ActionBar.TabListener,IRefreshable,PagerProvider {
     private Unit.UnitEnum unit;
 
     final Context context;
@@ -72,6 +72,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
             mService = null;
         }
     };
+    private PagerAdapter pagerAdapter;
 
     private void setPurchased(boolean purchased) {
         this.purchased = purchased;
@@ -83,9 +84,14 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     private AdView adView;
     private ActionBar actionBar;
     private List<Fragment> fragments;
+    private Fragment currentFragment;
 
     public PointsCalculatorActivity() {
         context = this;
+    }
+
+    public Fragment getCurrentFragment(){
+        return currentFragment;
     }
 
     /**
@@ -111,26 +117,29 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         fragments.add(Fragment.instantiate(this,
                 PointTrackerFragment.class.getName()));
 
-        PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
+        currentFragment=fragments.get(0);
+
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         pager = (ViewPager) findViewById(R.id.content);
 
         pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 actionBar.setTitle(((TitleProvider) fragments.get(position)).getTitle());
+                currentFragment=fragments.get(position);
             }
         });
 
-        pager.setAdapter(mPagerAdapter);
+        pager.setAdapter(pagerAdapter);
 
-        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by
             // the adapter. Also specify this Activity object, which implements
             // the TabListener interface, as the callback (listener) for when
             // this tab is selected.
             actionBar.addTab(
                     actionBar.newTab()
-                            .setText(mPagerAdapter.getPageTitle(i))
+                            .setText(pagerAdapter.getPageTitle(i))
                             .setTabListener(this)
             );
         }
@@ -371,5 +380,15 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
                 ((IRefreshable) fragment).Refresh();
             }
         }
+    }
+
+    @Override
+    public PagerAdapter getPagerAdapter() {
+        return pagerAdapter;
+    }
+
+    @Override
+    public ViewPager getViewPager() {
+        return pager;
     }
 }

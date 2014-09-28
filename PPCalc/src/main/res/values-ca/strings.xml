@@ -48,7 +48,8 @@
     <string name="tracker">Point tracker</string>
     <string name="tracker_preferences_summary">Preferències PointTracker.</string>
     <string name="date_picker_message">Sel·leccioneu la data que voleu veure:</string>
-    <string name="review">Història</string>
+    <string name="history">Història</string>
+    <string name="select_calculator">Seleccioneu la calculadora.</string>
     <plurals name="points_of">
         <item quantity="zero">%1$d punts de %2$d.</item>
         <item quantity="one">%1$d punt de %2$d.</item>

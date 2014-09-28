@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -101,6 +103,9 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
+
+        convertOldPreference();
+
         bound = false;
         purchased = false;
         getApplicationContext().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"),
@@ -154,6 +159,26 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         adView = (AdView) this.findViewById(R.id.adView);
 
         InitAds();
+    }
+
+    private void convertOldPreference() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPreferences.contains("defaultPage")) {
+            int page = sharedPreferences.getInt("defaultPage", 0);
+            switch(page){
+                case 0:
+                    sharedPreferences.edit().putString("default_page","propoints");
+                    break;
+                case 1:
+                    sharedPreferences.edit().putString("default_page","flexipoints");
+                    break;
+                case 2:
+                    sharedPreferences.edit().putString("default_page","pointsplus");
+                    break;
+            }
+            sharedPreferences.edit().remove("defaultPage");
+            sharedPreferences.edit().commit();
+        }
     }
 
     @Override
@@ -220,7 +245,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
 
     private void InitDrawer() {
         Vector<String> drawerMenu = new Vector<String>();
-        drawerMenu.add(getString(R.string.review));
+        drawerMenu.add(getString(R.string.history));
         drawerMenu.add(getString(R.string.settings));
 
         if (mService != null && !purchased)

@@ -177,7 +177,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
                     break;
             }
             sharedPreferences.edit().remove("defaultPage");
-            sharedPreferences.edit().commit();
+            sharedPreferences.edit().apply();
         }
     }
 

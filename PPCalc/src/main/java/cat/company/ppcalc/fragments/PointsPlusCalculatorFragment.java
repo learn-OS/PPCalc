@@ -9,8 +9,6 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,34 +148,9 @@ public class PointsPlusCalculatorFragment extends Fragment implements TitleProvi
             case R.id.init:
                 init();
                 return true;
-            case R.id.help:
-                String unit= PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("selected_unit","grams");
-                String[] unitsValues=getResources().getStringArray(R.array.unitsValues);
-                String[] units=getResources().getStringArray(R.array.units);
-                int index= Arrays.asList(unitsValues).indexOf(unit);
-                String unitName=units[index];
-                AlertDialog.Builder bd = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme));
-                bd.setTitle(R.string.help);
-                bd.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                bd.setMessage(getResources().getString(R.string.helpMessage,unitName.toLowerCase()));
-                bd.show();
-                return true;
-            case R.id.calculate:
-                calculate();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

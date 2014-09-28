@@ -47,7 +47,9 @@ public class PointTrackerFragment extends Fragment implements IRefreshable,Title
     private DayPointsCursorAdapter adapter;
     private View view;
 
-    public PointTrackerFragment() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
@@ -55,6 +57,7 @@ public class PointTrackerFragment extends Fragment implements IRefreshable,Title
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_point_tracker, container, false);
+
         ListView list = (ListView) view.findViewById(R.id.pointsList);
         adapter = new DayPointsCursorAdapter(getActivity(), null, 0);
 
@@ -102,7 +105,6 @@ public class PointTrackerFragment extends Fragment implements IRefreshable,Title
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
         getActivity().getMenuInflater().inflate(R.menu.menu_point_list_selection, menu);
     }
 
@@ -164,8 +166,8 @@ public class PointTrackerFragment extends Fragment implements IRefreshable,Title
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu,inflater);
         inflater.inflate(R.menu.point_tracker, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

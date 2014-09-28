@@ -46,7 +46,8 @@
     <string name="daily_allowance_summary">Geben Sie Ihre täglichen Punkte Geld.</string>
     <string name="tracker">Punkt-Tracker</string>
     <string name="tracker_preferences_summary">PointTracker Vorlieben.</string>
-    <string name="date_picker_message">Select the date you want to view:</string>
+    <string name="date_picker_message">Wählen Sie das Datum, das Sie anzeigen möchten:</string>
+    <string name="review">Vergangenheit</string>
     <plurals name="points_of">
         <item quantity="zero">%1$d punkt der %2$d.</item>
         <item quantity="one">%1$d punkt der %2$d.</item>

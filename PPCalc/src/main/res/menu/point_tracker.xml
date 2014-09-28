@@ -1,7 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="cat.company.ppcalc.PointTrackerActivity" >
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
     <item android:id="@+id/addPoint"
         android:title="@string/add_points"
         app:showAsAction="ifRoom|withText"

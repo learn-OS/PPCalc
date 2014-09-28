@@ -12,4 +12,14 @@
         <item name="ounces">ounces</item>
         <item name="pounds">pounds</item>
     </array>
+    <array name="calculator_typesValues">
+        <item name="propoints">propoints</item>
+        <item name="flexipoints">flexipoints</item>
+        <item name="pointsplus">pointsplus</item>
+    </array>
+    <array name="calculator_types">
+        <item name="propoints">@string/propoints</item>
+        <item name="flexipoints">@string/flexipoints</item>
+        <item name="pointsplus">@string/pointsplus</item>
+    </array>
 </resources>

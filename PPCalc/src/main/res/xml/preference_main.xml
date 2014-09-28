@@ -5,4 +5,8 @@
         android:key="selected_unit"
         android:entryValues="@array/unitsValues" android:entries="@array/units"
         android:summary="@string/preferredUnit" android:title="@string/unit" />
+    <ListPreference android:defaultValue="propoints"
+        android:key="defaultPage"
+        android:entryValues="@array/calculator_typesValues" android:entries="@array/calculator_types"
+        android:summary="Select calculator." android:title="Calculator" />
 </PreferenceScreen>

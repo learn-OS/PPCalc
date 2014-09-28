@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -43,13 +41,13 @@ import java.util.Vector;
 import cat.company.ppcalc.adapters.PagerAdapter;
 import cat.company.ppcalc.ads.MyAdListener;
 import cat.company.ppcalc.calculator.Unit;
-import cat.company.ppcalc.fragments.FlexiPointsCalculatorFragment;
-import cat.company.ppcalc.fragments.PointsPlusCalculatorFragment;
-import cat.company.ppcalc.fragments.ProPointsCalculatorFragment;
+import cat.company.ppcalc.fragments.CalculatorFragment;
+import cat.company.ppcalc.fragments.PointTrackerFragment;
+import cat.company.ppcalc.interfaces.IRefreshable;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
-public class PointsCalculatorActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class PointsCalculatorActivity extends ActionBarActivity implements ActionBar.TabListener,IRefreshable {
     private Unit.UnitEnum unit;
 
     final Context context;
@@ -107,13 +105,12 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        fragments = new Vector<Fragment>();
+        fragments = new ArrayList<Fragment>();
         fragments.add(Fragment.instantiate(this,
-                ProPointsCalculatorFragment.class.getName()));
+                CalculatorFragment.class.getName()));
         fragments.add(Fragment.instantiate(this,
-                FlexiPointsCalculatorFragment.class.getName()));
-        fragments.add(Fragment.instantiate(this,
-                PointsPlusCalculatorFragment.class.getName()));
+                PointTrackerFragment.class.getName()));
+
         PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         pager = (ViewPager) findViewById(R.id.content);
 
@@ -121,9 +118,6 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
             @Override
             public void onPageSelected(int position) {
                 actionBar.setTitle(((TitleProvider) fragments.get(position)).getTitle());
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-                editor.putInt("defaultPage", position);
-                editor.apply();
             }
         });
 
@@ -144,8 +138,6 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         actionBar.setTitle(((TitleProvider) fragments.get(0)).getTitle());
         InitDrawer();
 
-        LoadPageFromPreferences();
-
         PagerTabStrip ts = (PagerTabStrip) findViewById(R.id.titles);
         ts.setTextColor(getResources().getColor(R.color.blau_fosc));
         ts.setTabIndicatorColorResource(R.color.blau_fosc);
@@ -153,11 +145,6 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         adView = (AdView) this.findViewById(R.id.adView);
 
         InitAds();
-    }
-
-    private void LoadPageFromPreferences() {
-        int page = PreferenceManager.getDefaultSharedPreferences(this).getInt("defaultPage", 0);
-        pager.setCurrentItem(page, true);
     }
 
     @Override
@@ -168,7 +155,6 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     @Override
     protected void onResume() {
         super.onResume();
-        LoadPageFromPreferences();
     }
 
     private void RetrievePurchase() {
@@ -225,7 +211,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
 
     private void InitDrawer() {
         Vector<String> drawerMenu = new Vector<String>();
-        drawerMenu.add(getString(R.string.title_activity_point_tracker));
+        drawerMenu.add(getString(R.string.review));
         drawerMenu.add(getString(R.string.settings));
 
         if (mService != null && !purchased)
@@ -376,5 +362,14 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
+    }
+
+    @Override
+    public void Refresh() {
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof IRefreshable) {
+                ((IRefreshable) fragment).Refresh();
+            }
+        }
     }
 }

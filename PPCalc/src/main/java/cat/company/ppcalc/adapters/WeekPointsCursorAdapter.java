@@ -19,10 +19,10 @@ import cat.company.ppcalc.db.DayPointsProviderMetadata;
  * Created by carles on 05/08/14.
  * Adapter for the Day Points list.
  */
-public class DayPointsCursorAdapter extends CursorAdapter {
+public class WeekPointsCursorAdapter extends CursorAdapter {
     LayoutInflater mInflater;
 
-    public DayPointsCursorAdapter(Context context, Cursor c, int flags) {
+    public WeekPointsCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
 
         mInflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -38,16 +38,18 @@ public class DayPointsCursorAdapter extends CursorAdapter {
         TextView dateTv = (TextView) view.findViewById(R.id.date);
         TextView commentTv= (TextView) view.findViewById(R.id.comment);
         TextView pointTv= (TextView) view.findViewById(R.id.points);
-        SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat sdfIn=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = sdfIn.parse(cursor.getString(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.DATE)));
-            dateTv.setText(sdf.format(date));
+            String day = cursor.getString(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.DATE));
+            if(day!=null) {
+                Date date = sdfIn.parse(day);
+                dateTv.setText(sdf.format(date));
+            }
         }
         catch (ParseException ex){
             dateTv.setVisibility(View.INVISIBLE);
         }
-        commentTv.setText(cursor.getString(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.COMMENT)));
-        pointTv.setText(String.format("%d",cursor.getInt(cursor.getColumnIndex(DayPointsProviderMetadata.DayPointsTableMetadata.POINTS))));
+        pointTv.setText(String.format("%d",cursor.getInt(cursor.getColumnIndex("POINTSUM"))));
     }
 }

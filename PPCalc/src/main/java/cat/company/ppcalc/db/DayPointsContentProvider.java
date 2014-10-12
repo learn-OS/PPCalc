@@ -39,11 +39,13 @@ public class DayPointsContentProvider extends ContentProvider {
     private static final int INCOMING_POINT_COLLECTION_URI_INDICATOR = 1;
     private static final int INCOMING_SINGLE_POINT_URI_INDICATOR = 2;
     private static final int INCOMING_DAYS_COLLECTION_URI_INDICATOR = 3;
+    private static final int INCOMING_WEEK_COLLECTION_URI_INDICATOR = 4;
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"daypoints", INCOMING_POINT_COLLECTION_URI_INDICATOR);
         sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"daypoints/#",INCOMING_SINGLE_POINT_URI_INDICATOR);
         sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY,"lastdays/#",INCOMING_DAYS_COLLECTION_URI_INDICATOR);
+        sUriMatcher.addURI(DayPointsProviderMetadata.AUTHORITY, "week", INCOMING_WEEK_COLLECTION_URI_INDICATOR);
     }
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -177,6 +179,21 @@ public class DayPointsContentProvider extends ContentProvider {
                 qb.setTables(DayPointsProviderMetadata.DayPointsTableMetadata.TABLE_NAME);
                 // TODO: Finish query.
                 break;
+            case INCOMING_WEEK_COLLECTION_URI_INDICATOR:
+                String query="SELECT *,"+
+                        " STRFTIME('%d-%m-%Y',"+ DayPointsProviderMetadata.DayPointsTableMetadata.DATE+") AS DATE,"+
+                        " SUM("+DayPointsProviderMetadata.DayPointsTableMetadata.POINTS+") AS POINTSUM"+
+                        " FROM "+ DayPointsProviderMetadata.DayPointsTableMetadata.TABLE_NAME+
+                        " WHERE STRFTIME('%W-%Y',"+ DayPointsProviderMetadata.DayPointsTableMetadata.DATE+")=STRFTIME('%W-%Y','now')"+
+                        " GROUP BY STRFTIME('%d-%m-%Y',"+ DayPointsProviderMetadata.DayPointsTableMetadata.DATE+")"+
+                        " ORDER BY "+ DayPointsProviderMetadata.DayPointsTableMetadata.DATE;
+                SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+                Cursor c = db.rawQuery(query,null);
+
+                int i = c.getCount();
+
+                c.setNotificationUri(getContext().getContentResolver(), uri);
+                return c;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }

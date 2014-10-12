@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import cat.company.ppcalc.adapters.PagerAdapter;
 import cat.company.ppcalc.fragments.DayPointTrackerFragment;
+import cat.company.ppcalc.fragments.WeekPointTrackerFragment;
 import cat.company.ppcalc.interfaces.IRefreshable;
 
 public class PointTrackerActivity extends ActionBarActivity implements IRefreshable {
@@ -34,6 +35,7 @@ public class PointTrackerActivity extends ActionBarActivity implements IRefresha
         fragments = new Vector<Fragment>();
         fragments.add(Fragment.instantiate(this,
                 DayPointTrackerFragment.class.getName()));
+        fragments.add(Fragment.instantiate(this, WeekPointTrackerFragment.class.getName()));
         PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         ViewPager pager = (ViewPager) findViewById(R.id.content);
 

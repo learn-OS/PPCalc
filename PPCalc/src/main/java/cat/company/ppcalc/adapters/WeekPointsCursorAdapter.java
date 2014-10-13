@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cat.company.ppcalc.Application;
 import cat.company.ppcalc.R;
 import cat.company.ppcalc.db.DayPointsProviderMetadata;
 
@@ -57,6 +58,10 @@ public class WeekPointsCursorAdapter extends CursorAdapter {
 
         pointTv.setText(String.format("%d / %d", points, daily_allowance));
         progress.setMax(daily_allowance);
+        if (points >= daily_allowance)
+            progress.setProgressDrawable(Application.getContext().getResources().getDrawable(R.drawable.red_progressbar));
+        else
+            progress.setProgressDrawable(Application.getContext().getResources().getDrawable(R.drawable.green_progressbar));
         progress.setProgress(points);
     }
 }

@@ -30,16 +30,16 @@ import cat.company.ppcalc.util.TitleProvider;
  * Fragment for the point tracker day view.
  */
 
-public class WeekPointTrackerFragment extends Fragment implements IRefreshable,TitleProvider {
+public class MonthPointTrackerFragment extends Fragment implements IRefreshable,TitleProvider {
 
     public static final String TAG = "WeekPointTrackerFragment";
-private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.WEEK_URI;
+private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.MONTH_URI;
     private WeekPointsCursorAdapter adapter;
     private View view;
     private Date date;
     private GregorianCalendar gregorianCalendar;
 
-    public WeekPointTrackerFragment() {
+    public MonthPointTrackerFragment() {
         setHasOptionsMenu(true);
     }
 
@@ -64,7 +64,7 @@ private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.WEEK_UR
 
     private void reload() {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("ww-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
             Cursor cursor = getActivity().getContentResolver().acquireContentProviderClient(uri).query(uri, null,
                     null, null, null);
             adapter.swapCursor(cursor);
@@ -97,6 +97,6 @@ private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.WEEK_UR
 
     @Override
     public String getTitle() {
-        return Application.getContext().getString(R.string.week);
+        return Application.getContext().getString(R.string.month);
     }
 }

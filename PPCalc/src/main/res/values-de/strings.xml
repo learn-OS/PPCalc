@@ -51,6 +51,7 @@
     <string name="select_calculator">Wählen Rechner.</string>
     <string name="day">Day</string>
     <string name="week">Week</string>
+    <string name="month">Month</string>
     <plurals name="points_of">
         <item quantity="zero">%1$d punkt der %2$d.</item>
         <item quantity="one">%1$d punkt der %2$d.</item>

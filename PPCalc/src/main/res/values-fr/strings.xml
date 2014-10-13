@@ -49,6 +49,8 @@
     <string name="date_picker_message">Sélectionnez la date que vous voulez voir:</string>
     <string name="history">Histoire</string>
     <string name="select_calculator">Sélectionnez calculatrice.</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
     <plurals name="points_of">
         <item quantity="zero">"%1$d points de %2$d."</item>
         <item quantity="one">"%1$d point de %2$d."</item>

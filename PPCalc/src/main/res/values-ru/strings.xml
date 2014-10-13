@@ -51,6 +51,8 @@
     <string name="date_picker_message">Выберите дату для зрения:</string>
     <string name="history">История</string>
     <string name="select_calculator">Выберите калькулятор.</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
     <plurals name="points_of">
         <item quantity="zero">%1$d точки из %2$d.</item>
         <item quantity="one">%1$d точки из %2$d.</item>

@@ -245,6 +245,6 @@ public class DayPointTrackerFragment extends Fragment implements IRefreshable,Ti
 
     @Override
     public String getTitle() {
-        return "Viewer";
+        return Application.getContext().getString(R.string.day);
     }
 }

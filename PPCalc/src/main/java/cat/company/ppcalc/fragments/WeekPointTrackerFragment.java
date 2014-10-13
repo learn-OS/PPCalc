@@ -97,6 +97,6 @@ private final Uri uri = DayPointsProviderMetadata.DayPointsTableMetadata.WEEK_UR
 
     @Override
     public String getTitle() {
-        return "Week";
+        return Application.getContext().getString(R.string.week);
     }
 }

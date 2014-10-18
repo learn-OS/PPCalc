@@ -1,16 +1,15 @@
 <resources>
-    <string name="app_name">"PPCalc"</string>
-    <string name="protein">"Protéines"</string>
-    <string name="carbs">"Glucides"</string>
+    <string name="app_name">PPCalc</string>
+    <string name="protein">Protéines</string>
+    <string name="carbs">Glucides</string>
     <string name="fat">"Lipides"</string>
     <string name="fibre">"Fibre"</string>
-    <string name="calculate">"Calculer"</string>
-    <string name="init">"Initialiser"</string>
-    <string name="nil">"0"</string>
-    <string name="points">"Points"</string>
+    <string name="calculate">Calculer</string>
+    <string name="init">Initialiser</string>
+    <string name="nil">0</string>
+    <string name="points">Points</string>
     <string name="unit">Unités</string>
 	<plurals name="num_points">
-        <item quantity="zero">"Zéro points."</item>
         <item quantity="one">"%d point."</item>
         <item quantity="other">"%d points."</item>
     </plurals>
@@ -49,11 +48,10 @@
     <string name="date_picker_message">Sélectionnez la date que vous voulez voir:</string>
     <string name="history">Histoire</string>
     <string name="select_calculator">Sélectionnez calculatrice.</string>
-    <string name="day">Day</string>
-    <string name="week">Week</string>
-    <string name="month">Month</string>
+    <string name="day">Jour</string>
+    <string name="week">Semaine</string>
+    <string name="month">Mois</string>
     <plurals name="points_of">
-        <item quantity="zero">"%1$d points de %2$d."</item>
         <item quantity="one">"%1$d point de %2$d."</item>
         <item quantity="other">"%1$d points de %2$d."</item>
     </plurals>

@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">PPCalc</string>
     <string name="action_settings">设置</string>
-    <string name="hello_world">世界，你好！</string>
     <string name="protein">蛋白质</string>
     <string name="carbs">碳水化合物</string>
     <string name="fat">脂肪</string>
@@ -12,8 +11,6 @@
     <string name="nil">0</string>
     <string name="points">积分</string>
     <plurals name="num_points">
-        <item quantity="zero">零点。</item>
-        <item quantity="one">%d 点。</item>
         <item quantity="other">%d 点。</item>
     </plurals>
     <string name="unit">单位</string>
@@ -51,12 +48,10 @@
     <string name="date_picker_message">选择您想要查看的日期：</string>
     <string name="history">历史</string>
     <string name="select_calculator">选择计算器。</string>
-    <string name="day">Day</string>
-    <string name="week">Week</string>
-    <string name="month">Month</string>
+    <string name="day">日</string>
+    <string name="week">周</string>
+    <string name="month">一个月</string>
     <plurals name="points_of">
-        <item quantity="zero">%1$d点%2$d。</item>
-        <item quantity="one">%1$d点%2$d。</item>
         <item quantity="other">%1$d点%2$d。</item>
     </plurals>
 </resources>

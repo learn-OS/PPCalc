@@ -11,7 +11,6 @@
     <string name="points">Punts</string>
     <string name="unit">Unitats</string>
 	<plurals name="num_points">
-        <item quantity="zero">Zero punts.</item>
         <item quantity="one">%d punt.</item>
         <item quantity="other">%d punts.</item>
     </plurals>
@@ -50,11 +49,10 @@
     <string name="date_picker_message">Sel·leccioneu la data que voleu veure:</string>
     <string name="history">Història</string>
     <string name="select_calculator">Seleccioneu la calculadora.</string>
-    <string name="day">Day</string>
-    <string name="week">Week</string>
-    <string name="month">Month</string>
+    <string name="day">Dia</string>
+    <string name="week">Setmana</string>
+    <string name="month">Mes</string>
     <plurals name="points_of">
-        <item quantity="zero">%1$d punts de %2$d.</item>
         <item quantity="one">%1$d punt de %2$d.</item>
         <item quantity="other">%1$d punts de %2$d.</item>
     </plurals>

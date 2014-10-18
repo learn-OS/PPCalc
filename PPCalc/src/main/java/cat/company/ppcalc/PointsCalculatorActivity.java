@@ -108,7 +108,9 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
 
         bound = false;
         purchased = false;
-        getApplicationContext().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"),
+        Intent service = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        service.setPackage("com.android.vending");
+        getApplicationContext().bindService(service,
                 mServiceConn, Context.BIND_AUTO_CREATE);
 
         actionBar = getSupportActionBar();

@@ -22,6 +22,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +50,7 @@ import cat.company.ppcalc.interfaces.IRefreshable;
 import cat.company.ppcalc.preferences.PreferencesActivity;
 import cat.company.ppcalc.util.TitleProvider;
 
-public class PointsCalculatorActivity extends ActionBarActivity implements ActionBar.TabListener,IRefreshable,PagerProvider {
+public class PointsCalculatorActivity extends ActionBarActivity implements ActionBar.TabListener,IRefreshable,PagerProvider{
     private Unit.UnitEnum unit;
 
     final Context context;
@@ -92,7 +93,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         context = this;
     }
 
-    public Fragment getCurrentFragment(){
+    public Fragment getCurrentFragment() {
         return currentFragment;
     }
 
@@ -103,6 +104,8 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         convertOldPreference();
 
@@ -124,7 +127,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         fragments.add(Fragment.instantiate(this,
                 PointTrackerFragment.class.getName()));
 
-        currentFragment=fragments.get(0);
+        currentFragment = fragments.get(0);
 
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         pager = (ViewPager) findViewById(R.id.content);
@@ -133,23 +136,23 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
             @Override
             public void onPageSelected(int position) {
                 actionBar.setTitle(((TitleProvider) fragments.get(position)).getTitle());
-                currentFragment=fragments.get(position);
+                currentFragment = fragments.get(position);
             }
         });
 
         pager.setAdapter(pagerAdapter);
 
-        for (int i = 0; i < pagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(pagerAdapter.getPageTitle(i))
-                            .setTabListener(this)
-            );
-        }
+//        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+//            // Create a tab with text corresponding to the page title defined by
+//            // the adapter. Also specify this Activity object, which implements
+//            // the TabListener interface, as the callback (listener) for when
+//            // this tab is selected.
+//            actionBar.addTab(
+//                    actionBar.newTab()
+//                            .setText(pagerAdapter.getPageTitle(i))
+//                            .setTabListener(this)
+//            );
+//        }
 
         actionBar.setTitle(((TitleProvider) fragments.get(0)).getTitle());
         InitDrawer();
@@ -165,17 +168,17 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
 
     private void convertOldPreference() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if(sharedPreferences.contains("defaultPage")) {
+        if (sharedPreferences.contains("defaultPage")) {
             int page = sharedPreferences.getInt("defaultPage", 0);
-            switch(page){
+            switch (page) {
                 case 0:
-                    sharedPreferences.edit().putString("default_page","propoints");
+                    sharedPreferences.edit().putString("default_page", "propoints");
                     break;
                 case 1:
-                    sharedPreferences.edit().putString("default_page","flexipoints");
+                    sharedPreferences.edit().putString("default_page", "flexipoints");
                     break;
                 case 2:
-                    sharedPreferences.edit().putString("default_page","pointsplus");
+                    sharedPreferences.edit().putString("default_page", "pointsplus");
                     break;
             }
             sharedPreferences.edit().remove("defaultPage");
@@ -258,8 +261,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
                     R.layout.drawer_list_item, drawerMenu);
             mDrawerList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-        }
-        else {
+        } else {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     R.layout.drawer_list_item_old, drawerMenu);
             mDrawerList.setAdapter(adapter);

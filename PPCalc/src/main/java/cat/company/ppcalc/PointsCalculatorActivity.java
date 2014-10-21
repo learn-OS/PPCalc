@@ -158,8 +158,8 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         InitDrawer();
 
         PagerTabStrip ts = (PagerTabStrip) findViewById(R.id.titles);
-        ts.setTextColor(getResources().getColor(R.color.blau_fosc));
-        ts.setTabIndicatorColorResource(R.color.blau_fosc);
+        ts.setTextColor(getResources().getColor(R.color.black));
+        ts.setTabIndicatorColorResource(R.color.colorPrimaryDark);
 
         adView = (AdView) this.findViewById(R.id.adView);
 

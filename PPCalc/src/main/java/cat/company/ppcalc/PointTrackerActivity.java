@@ -3,6 +3,7 @@ package cat.company.ppcalc;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -43,6 +44,10 @@ public class PointTrackerActivity extends ActionBarActivity implements IRefresha
         fragments.add(Fragment.instantiate(this, MonthPointTrackerFragment.class.getName()));
         PagerAdapter mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         ViewPager pager = (ViewPager) findViewById(R.id.content);
+
+        PagerTabStrip ts = (PagerTabStrip) findViewById(R.id.titles);
+        ts.setTextColor(getResources().getColor(R.color.black));
+        ts.setTabIndicatorColorResource(R.color.colorPrimaryDark);
 
         pager.setAdapter(mPagerAdapter);
     }

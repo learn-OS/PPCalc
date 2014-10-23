@@ -17,7 +17,7 @@
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="colorAccent">#8bc34a</item>
         <item name="android:textColorPrimary">#D9000000</item>
-        <item name="android:textColorSecondary">#D9FFFFFF</item>
+        <item name="android:textColorSecondary">#D9222222</item>
     </style>
 
 </resources>

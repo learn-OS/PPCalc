@@ -18,6 +18,7 @@
         <item name="colorAccent">#8bc34a</item>
         <item name="android:textColorPrimary">#D9000000</item>
         <item name="android:textColorSecondary">#D9222222</item>
+        <item name="drawerArrowStyle">@style/Widget.AppCompat.DrawerArrowToggle</item>
     </style>
 
 </resources>

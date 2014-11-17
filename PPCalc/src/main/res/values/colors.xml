@@ -3,8 +3,8 @@
     <drawable name="selected_item">#77ffffff</drawable>
     <color name="blau_fosc">#222266</color>
     <color name="black">#000000</color>
-    <color name="colorPrimary">#ffc107</color>
-    <color name="colorPrimaryDark">#ffa000</color>
+    <color name="colorPrimary">#673AB7</color>
+    <color name="colorPrimaryDark">#512DA8</color>
     <color name="green">#00bb00</color>
     <color name="red">#ff0000</color>
 </resources>

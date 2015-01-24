@@ -37,7 +37,7 @@ public class PointTrackerActivity extends ActionBarActivity implements IRefresha
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        fragments = new Vector<Fragment>();
+        fragments = new Vector<>();
         fragments.add(Fragment.instantiate(this,
                 DayPointTrackerFragment.class.getName()));
         fragments.add(Fragment.instantiate(this, WeekPointTrackerFragment.class.getName()));

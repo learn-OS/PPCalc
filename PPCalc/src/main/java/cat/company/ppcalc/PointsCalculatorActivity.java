@@ -55,7 +55,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
 
     final Context context;
 
-    private final static String TAG = "PointsCalculatorActivity";
+    private final static String TAG = "PointsCalculator";
     private ViewPager pager;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -121,7 +121,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        fragments = new ArrayList<Fragment>();
+        fragments = new ArrayList<>();
         fragments.add(Fragment.instantiate(this,
                 CalculatorFragment.class.getName()));
         fragments.add(Fragment.instantiate(this,
@@ -249,7 +249,7 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
     }
 
     private void InitDrawer() {
-        Vector<String> drawerMenu = new Vector<String>();
+        Vector<String> drawerMenu = new Vector<>();
         drawerMenu.add(getString(R.string.history));
         drawerMenu.add(getString(R.string.settings));
 
@@ -257,12 +257,12 @@ public class PointsCalculatorActivity extends ActionBarActivity implements Actio
             drawerMenu.add(getString(R.string.purchase));
 
         if (Build.VERSION.SDK_INT >= 11) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                     R.layout.drawer_list_item, drawerMenu);
             mDrawerList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         } else {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                     R.layout.drawer_list_item_old, drawerMenu);
             mDrawerList.setAdapter(adapter);
             adapter.notifyDataSetChanged();

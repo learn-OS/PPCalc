@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PPCalc.iml" filepath="$PROJECT_DIR$/PPCalc.iml" />
       <module fileurl="file://$PROJECT_DIR$/PPCalc/PPCalc-PPCalc.iml" filepath="$PROJECT_DIR$/PPCalc/PPCalc-PPCalc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PPCalcProject.iml" filepath="$PROJECT_DIR$/PPCalcProject.iml" />
     </modules>
   </component>
 </project>

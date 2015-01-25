@@ -16,6 +16,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:actionModeBackground">@color/colorPrimary</item>
         <item name="colorAccent">#8bc34a</item>
     </style>
 
@@ -23,5 +24,4 @@
         <item name="android:textColorPrimary">#aaffffff</item>
         <item name="android:textColorSecondary">#aaffffff</item>
     </style>
-
 </resources>
